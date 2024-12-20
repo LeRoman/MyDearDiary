@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Diary.WebAPI", "Diary.WebAPI\Diary.WebAPI.csproj", "{DE244F16-A79F-41CF-8563-2162F2008D51}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Diary.DAL", "Diary.DAL\Diary.DAL.csproj", "{AE6C43D0-72AA-40D3-A67F-7387245C8F31}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DE244F16-A79F-41CF-8563-2162F2008D51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE244F16-A79F-41CF-8563-2162F2008D51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE244F16-A79F-41CF-8563-2162F2008D51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE244F16-A79F-41CF-8563-2162F2008D51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE6C43D0-72AA-40D3-A67F-7387245C8F31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE6C43D0-72AA-40D3-A67F-7387245C8F31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE6C43D0-72AA-40D3-A67F-7387245C8F31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE6C43D0-72AA-40D3-A67F-7387245C8F31}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {747AB6EA-BF39-4121-9F32-0B64895818AF}
+	EndGlobalSection
+EndGlobal

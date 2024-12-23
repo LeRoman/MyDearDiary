@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Diary.DAL.Entities
 {
-    internal class Image : BaseEntity
+    public class Image : BaseEntity
     {
-        public string FileName { get; private set; }
+        public string? FileName { get; private set; }
         public Guid RecordId { get; private set; }
     }
 }

@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Diary.WebAPI", "Diary.WebAP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Diary.DAL", "Diary.DAL\Diary.DAL.csproj", "{AE6C43D0-72AA-40D3-A67F-7387245C8F31}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Diary.BLL", "Diary.BLL\Diary.BLL.csproj", "{E283D574-38BD-40E1-B0AE-84AD0297F845}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{AE6C43D0-72AA-40D3-A67F-7387245C8F31}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE6C43D0-72AA-40D3-A67F-7387245C8F31}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE6C43D0-72AA-40D3-A67F-7387245C8F31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E283D574-38BD-40E1-B0AE-84AD0297F845}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E283D574-38BD-40E1-B0AE-84AD0297F845}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E283D574-38BD-40E1-B0AE-84AD0297F845}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E283D574-38BD-40E1-B0AE-84AD0297F845}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

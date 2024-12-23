@@ -1,16 +1,13 @@
 ﻿using Diary.DAL.Entities.Abstract;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Diary.DAL.Enums;
 
 namespace Diary.DAL.Entities
 {
-    internal class User : BaseEntity
+    public class User : BaseEntity
     {
-        public string Nickname { get; private set; }
-        public string Email { get; private set; }
-        public string PasswordHash { get; private set; }
+        public string? Nickname { get;  set; }
+        public string? Email { get;  set; }
+        public string? PasswordHash { get;  set; }
+        public UserRoles Role { get;  set; }
     }
 }

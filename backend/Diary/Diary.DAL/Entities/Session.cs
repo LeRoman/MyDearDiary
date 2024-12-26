@@ -4,7 +4,8 @@ namespace Diary.DAL.Entities
 {
     public class Session : BaseEntity
     {
-        public Guid UserId { get; private set; }
-        public DateTime? ExpiryAt { get; private set; }
+        public Guid UserId { get; set; }
+        public DateTime? ExpiryAt { get; set; }
+        public bool IsRevoked { get; set; }
     }
 }

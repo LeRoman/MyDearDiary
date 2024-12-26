@@ -35,7 +35,7 @@ namespace Diary.WebAPI.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(string email, string password)
         {
-            var token = await _userService.Login(email, password);
+            var token = await _userService.Authenticate(email, password);
             if (token == null)
             {
                 return Unauthorized("Invalid credentials.");

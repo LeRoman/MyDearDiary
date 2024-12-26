@@ -4,16 +4,19 @@ using Diary.DAL.Context;
 using Diary.DAL.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace Diary.BLL.Services
 {
     public class UserService : BaseService
     {
         private readonly JwtService _jwtService;
+        private readonly SessionService _sessionService;
 
-        public UserService(DiaryContext context, JwtService jwtService) : base(context)
+        public UserService(DiaryContext context, JwtService jwtService, SessionService sessionService) : base(context)
         {
             _jwtService = jwtService;
+            _sessionService= sessionService;
         }
         public async Task CreateUser(string email, string name, string password)
         {
@@ -32,16 +35,19 @@ namespace Diary.BLL.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<string?> Login(string email, string password)
+        public async Task<string?> Authenticate(string email, string password)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
-            var passHash = new PasswordHasher<User>().HashPassword(user, password);
-            var hashVerifyResult = (user != null)
-                ? new PasswordHasher<User>().VerifyHashedPassword(user, user.PasswordHash, password) : PasswordVerificationResult.Failed;
-
-            if (hashVerifyResult == PasswordVerificationResult.Success)
+            if (user != null)
             {
-                return _jwtService.GenerateJwtToken(user);
+                var hashVerifyResult = (user != null)
+                    ? new PasswordHasher<User>().VerifyHashedPassword(user, user.PasswordHash, password) : PasswordVerificationResult.Failed;
+
+                if (hashVerifyResult == PasswordVerificationResult.Success)
+                {
+                    var session = _sessionService.CreateSession(user).Result;
+                    return _jwtService.GenerateJwtToken(user, session);
+                }
             }
 
             return null;

@@ -18,12 +18,13 @@ namespace Diary.BLL.Services
             _configuration = configuration;
         }
 
-        public string GenerateJwtToken(User user)
+        public string GenerateJwtToken(User user, Session session)
         {
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Role, user.Role.ToString())
+                new Claim(ClaimTypes.Role, user.Role.ToString()),
+                new Claim("SesionId",session.Id.ToString())
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
@@ -33,7 +34,7 @@ namespace Diary.BLL.Services
                 issuer: _configuration["Jwt:Issuer"],
                 audience: _configuration["Jwt:Audience"],
                 claims: claims,
-                expires: DateTime.UtcNow.AddHours(1),
+                expires: session.ExpiryAt,
                 signingCredentials: creds);
 
             return new JwtSecurityTokenHandler().WriteToken(token);

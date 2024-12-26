@@ -1,6 +1,8 @@
 ﻿using Diary.BLL.Services;
+using Diary.DAL.Context;
 using Diary.DAL.Enums;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -14,8 +16,14 @@ namespace Diary.WebAPI.Extentions
             services.AddScoped<InvitationService>();
             services.AddScoped<JwtService>();
             services.AddScoped<UserService>();
+            services.AddScoped<SessionService>();
         }
 
+        public static void ConfigureDB(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddDbContext<DiaryContext>(options =>
+               options.UseSqlServer(configuration.GetConnectionString("DiaryDBConnection")));
+        }
         public static void ConfigureJwt(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddAuthentication(options =>

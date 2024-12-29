@@ -1,4 +1,5 @@
-﻿using Diary.BLL.Services.Abstract;
+﻿using Diary.BLL.DTO;
+using Diary.BLL.Services.Abstract;
 using Diary.DAL.Context;
 using Diary.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -9,11 +10,11 @@ namespace Diary.BLL.Services
     {
         public InvitationService(DiaryContext diaryContext) : base(diaryContext) { }
 
-        public async Task<Invitation> CreateInviteAsync(string email)
+        public async Task<Invitation> CreateInviteAsync(InvitationDTO invitationDTO)
         {
             var invitation = new Invitation
             {
-                Email = email,
+                Email = invitationDTO.Email,
                 Token = Guid.NewGuid().ToString(),
                 IsUsed = false
             };

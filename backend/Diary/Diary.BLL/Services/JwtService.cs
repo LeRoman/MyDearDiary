@@ -22,8 +22,8 @@ namespace Diary.BLL.Services
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Role, user.Role.ToString()),
+                new Claim("UserId", user.Id.ToString()),
+                new Claim("Role", user.Role.ToString()),
                 new Claim("SesionId",session.Id.ToString())
             };
 

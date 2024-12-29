@@ -12,5 +12,13 @@ namespace Diary.DAL.Context
         public DbSet<Invitation> Invitations { get; set; }
 
         public DiaryContext(DbContextOptions<DiaryContext> options) : base(options) { }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Record>()
+                .Property(r => r.Content)
+                .HasMaxLength(500)
+                .IsRequired();
+        }
     }
 }

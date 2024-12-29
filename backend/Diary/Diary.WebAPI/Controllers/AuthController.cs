@@ -1,7 +1,6 @@
-﻿using Azure.Core;
+﻿using Diary.BLL.DTO;
 using Diary.BLL.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Diary.WebAPI.Controllers
 {
@@ -19,23 +18,23 @@ namespace Diary.WebAPI.Controllers
         }
 
         [HttpPost("registration")]
-        public async Task<IActionResult> RegisterUser(string token, string email, string name, string password)
+        public async Task<IActionResult> RegisterUser(UserCreateDTO userCreateDTO)
         {
-            var invitation = await _inviteService.ValidateTokenAsync(token);
+            var invitation = await _inviteService.ValidateTokenAsync(userCreateDTO.Token);
             if (invitation == false)
             {
                 return BadRequest("Invalid or expired invite token");
             }
 
-            await _userService.CreateUser(email, name, password);
-            await _inviteService.MarkTokenAsUsedAsync(token);
+            await _userService.CreateUser(userCreateDTO);
+            await _inviteService.MarkTokenAsUsedAsync(userCreateDTO.Token);
             return Ok("Registration successful");
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(string email, string password)
+        public async Task<IActionResult> Login(UserLoginDTO UserLoginDTO)
         {
-            var token = await _userService.Authenticate(email, password);
+            var token = await _userService.Authenticate(UserLoginDTO);
             if (token == null)
             {
                 return Unauthorized("Invalid credentials.");

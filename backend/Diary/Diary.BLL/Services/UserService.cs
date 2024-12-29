@@ -1,10 +1,9 @@
-﻿using Azure.Core;
+﻿using Diary.BLL.DTO;
 using Diary.BLL.Services.Abstract;
 using Diary.DAL.Context;
 using Diary.DAL.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
 
 namespace Diary.BLL.Services
 {
@@ -16,32 +15,32 @@ namespace Diary.BLL.Services
         public UserService(DiaryContext context, JwtService jwtService, SessionService sessionService) : base(context)
         {
             _jwtService = jwtService;
-            _sessionService= sessionService;
+            _sessionService = sessionService;
         }
-        public async Task CreateUser(string email, string name, string password)
+        public async Task CreateUser(UserCreateDTO userCreateDTO)
         {
 
             var user = new User
             {
-                Nickname = name,
-                Email = email,
+                Nickname = userCreateDTO.Name,
+                Email = userCreateDTO.Email,
                 Role = DAL.Enums.UserRoles.User
             };
 
-            var passHash = new PasswordHasher<User>().HashPassword(user, password);
+            var passHash = new PasswordHasher<User>().HashPassword(user, userCreateDTO.Password);
             user.PasswordHash = passHash;
 
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
         }
 
-        public async Task<string?> Authenticate(string email, string password)
+        public async Task<string?> Authenticate(UserLoginDTO userLoginDTO)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == userLoginDTO.Email);
             if (user != null)
             {
                 var hashVerifyResult = (user != null)
-                    ? new PasswordHasher<User>().VerifyHashedPassword(user, user.PasswordHash, password) : PasswordVerificationResult.Failed;
+                    ? new PasswordHasher<User>().VerifyHashedPassword(user, user.PasswordHash, userLoginDTO.Password) : PasswordVerificationResult.Failed;
 
                 if (hashVerifyResult == PasswordVerificationResult.Success)
                 {

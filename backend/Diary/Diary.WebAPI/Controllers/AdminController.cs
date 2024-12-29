@@ -1,4 +1,5 @@
-﻿using Diary.BLL.Services;
+﻿using Diary.BLL.DTO;
+using Diary.BLL.Services;
 using Diary.DAL.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,11 +18,11 @@ namespace Diary.WebAPI.Controllers
             _userService = userService;
         }
         [HttpGet]
-        public async Task<Invitation> GetInvite(string email)
+        public async Task<Invitation> GetInvite(InvitationDTO invitationDTO)
         {
-            return await _inviteService.CreateInviteAsync(email);
+            return await _inviteService.CreateInviteAsync(invitationDTO);
         }
 
-       
+
     }
 }

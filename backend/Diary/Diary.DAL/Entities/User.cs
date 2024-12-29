@@ -5,9 +5,9 @@ namespace Diary.DAL.Entities
 {
     public class User : BaseEntity
     {
-        public string? Nickname { get;  set; }
-        public string? Email { get;  set; }
-        public string? PasswordHash { get;  set; }
-        public UserRoles Role { get;  set; }
+        public string? Nickname { get; set; }
+        public string? Email { get; set; }
+        public string? PasswordHash { get; set; }
+        public UserRoles Role { get; set; }
     }
 }

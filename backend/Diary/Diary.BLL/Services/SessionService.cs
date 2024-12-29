@@ -2,11 +2,6 @@
 using Diary.DAL.Context;
 using Diary.DAL.Entities;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Diary.BLL.Services
 {
@@ -20,10 +15,11 @@ namespace Diary.BLL.Services
         }
         public async Task<Session> CreateSession(User user)
         {
+            double sessionLifeTime = Convert.ToDouble(_configuration["Session:LifeTimeHours"]);
             var session = new Session()
             {
                 UserId = user.Id,
-                ExpiryAt = DateTime.Now.AddHours(Convert.ToDouble(_configuration["Session:Lifetime"]))
+                ExpiryAt = DateTime.Now.AddHours(sessionLifeTime)
             };
 
             await _context.Sessions.AddAsync(session);

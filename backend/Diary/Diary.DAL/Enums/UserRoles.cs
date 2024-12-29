@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Diary.DAL.Enums
+﻿namespace Diary.DAL.Enums
 {
     public enum UserRoles
     {

@@ -1,5 +1,6 @@
 using Diary.WebAPI.Extentions;
 using Diary.WebAPI.Filters;
+using Diary.WebAPI.Middlewares;
 
 namespace Diary.WebAPI
 {
@@ -15,7 +16,7 @@ namespace Diary.WebAPI
             });
             builder.Services.RegisterCustomServices();
             builder.Services.ConfigureJwt(builder.Configuration);
-            builder.Services.ConfigureDB(builder.Configuration); 
+            builder.Services.ConfigureDB(builder.Configuration);
 
             var app = builder.Build();
 
@@ -24,6 +25,7 @@ namespace Diary.WebAPI
             app.UseAuthorization();
 
             app.UseHttpsRedirection();
+            app.UseMiddleware<UserIdSaverMiddleware>();
             app.MapControllers();
 
             app.Run();

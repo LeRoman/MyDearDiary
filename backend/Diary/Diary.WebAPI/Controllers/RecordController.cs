@@ -32,5 +32,24 @@ namespace Diary.WebAPI.Controllers
             return Ok();
         }
 
+        [HttpDelete]
+        public async Task<ActionResult> DeleteRecord(string recordId)
+        {
+            var record = await _recordService.GetRecordByIdAsync(recordId);
+            if (record == null)
+            {
+                return NotFound("Record not found");
+            }
+
+            var canBeDeleted = await _recordService.CanDeleteRecordAsync(recordId);
+            if (!canBeDeleted)
+            {
+                return BadRequest("Cannot delete record older than 2 days");
+            }
+
+            await _recordService.DeleteRecordAsync(record);
+            return NoContent();
+
+        }
     }
 }

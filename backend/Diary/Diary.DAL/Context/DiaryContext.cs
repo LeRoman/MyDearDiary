@@ -19,6 +19,18 @@ namespace Diary.DAL.Context
                 .Property(r => r.Content)
                 .HasMaxLength(500)
                 .IsRequired();
+
+            modelBuilder.Entity<Record>()
+                .HasMany(e => e.Images)
+                .WithOne(i => i.Record)
+                .HasForeignKey(k=>k.RecordId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<User>()
+                .HasMany(e => e.Records)
+                .WithOne(i => i.User)
+                .HasForeignKey(k => k.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

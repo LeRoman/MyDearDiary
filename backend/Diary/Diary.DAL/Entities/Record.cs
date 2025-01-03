@@ -6,5 +6,7 @@ namespace Diary.DAL.Entities
     {
         public string Content { get; set; }
         public Guid UserId { get; set; }
+        public User User { get; set; }
+        public List<Image>? Images { get; set; }
     }
 }

@@ -18,6 +18,8 @@ namespace Diary.WebAPI.Extentions
             services.AddScoped<JwtService>();
             services.AddScoped<UserService>();
             services.AddScoped<SessionService>();
+            services.AddTransient<ImageService>();
+            services.AddTransient<FileStorageService>();
             services.AddScoped<UserIdStorage>();
             services.AddTransient<IUserIdSetter>(s => s.GetService<UserIdStorage>());
             services.AddTransient<IUserIdGetter>(s => s.GetService<UserIdStorage>());

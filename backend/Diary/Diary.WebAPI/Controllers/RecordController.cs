@@ -20,13 +20,14 @@ namespace Diary.WebAPI.Controllers
 
         [HttpGet]
 
-        public async Task<ActionResult<IEnumerable<Record>>> GetRecords()
+        public async Task<ActionResult<IEnumerable<Record>>> GetRecords([FromQuery] RecordFilter recordFilter)
         {
-            var records = await _recordService.GetUserRecords();
+            var records = await _recordService.GetUserRecords(recordFilter);
             return Ok(records);
         }
+
         [HttpPost]
-        public async Task<ActionResult> AddRecord([FromBody] RecordDTO recordDTO)
+        public async Task<ActionResult> AddRecord([FromForm] RecordDTO recordDTO)
         {
             await _recordService.AddRecord(recordDTO);
             return Ok();

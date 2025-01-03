@@ -18,7 +18,7 @@ namespace Diary.WebAPI.Controllers
             _userService = userService;
         }
         [HttpGet]
-        public async Task<Invitation> GetInvite(InvitationDTO invitationDTO)
+        public async Task<Invitation> GetInvite([FromQuery]InvitationDTO invitationDTO)
         {
             return await _inviteService.CreateInviteAsync(invitationDTO);
         }

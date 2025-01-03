@@ -9,5 +9,6 @@ namespace Diary.DAL.Entities
         public string? Email { get; set; }
         public string? PasswordHash { get; set; }
         public UserRoles Role { get; set; }
+        public List<Record>?  Records { get; set; }
     }
 }

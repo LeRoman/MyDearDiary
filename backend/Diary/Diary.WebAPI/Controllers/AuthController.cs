@@ -18,7 +18,7 @@ namespace Diary.WebAPI.Controllers
         }
 
         [HttpPost("registration")]
-        public async Task<IActionResult> RegisterUser(UserCreateDTO userCreateDTO)
+        public async Task<IActionResult> RegisterUser([FromBody]UserCreateDTO userCreateDTO)
         {
             var invitation = await _inviteService.ValidateTokenAsync(userCreateDTO.Token);
             if (invitation == false)
@@ -32,7 +32,7 @@ namespace Diary.WebAPI.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(UserLoginDTO UserLoginDTO)
+        public async Task<IActionResult> Login([FromBody]UserLoginDTO UserLoginDTO)
         {
             var token = await _userService.Authenticate(UserLoginDTO);
             if (token == null)

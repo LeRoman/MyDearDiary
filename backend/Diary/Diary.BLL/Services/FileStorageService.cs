@@ -15,7 +15,6 @@ namespace Diary.BLL.Services
 
         internal async Task<string> SaveFileAsync(byte[] file, string folderPath, string fileExtension=".jpeg")
         {
-
             EnsureDirectoryExists(folderPath);
 
             var uniqueFileName = $"{Guid.NewGuid()}{fileExtension}";
@@ -25,7 +24,6 @@ namespace Diary.BLL.Services
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
                 stream.Write(file);
-               
             }
 
             return uniqueFileName;

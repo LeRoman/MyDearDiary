@@ -14,6 +14,7 @@ namespace Diary.WebAPI.Extentions
     {
         public static void RegisterCustomServices(this IServiceCollection services)
         {
+            services.AddSingleton<AesEncryptionService>();
             services.AddScoped<RecordsService>();
             services.AddScoped<InvitationService>();
             services.AddScoped<JwtService>();

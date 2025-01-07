@@ -11,11 +11,14 @@ namespace Diary.BLL.Services
     {
         private readonly UserIdStorage _userIdStorage;
         private readonly ImageService _imageService;
+        private readonly AesEncryptionService _encryptionService;
 
-        public RecordsService(DiaryContext diaryContext, UserIdStorage userIdStorage, ImageService imageService) : base(diaryContext)
+        public RecordsService(DiaryContext diaryContext, UserIdStorage userIdStorage,
+            ImageService imageService, AesEncryptionService encryptionService) : base(diaryContext)
         {
             _userIdStorage = userIdStorage;
             _imageService = imageService;
+            _encryptionService = encryptionService;
         }
 
         public async Task<IEnumerable<Record>> GetRecords()
@@ -28,7 +31,7 @@ namespace Diary.BLL.Services
             var record = new Record()
             {
                 UserId = Guid.Parse(_userIdStorage.CurrentUserId),
-                Content = recordDTO.Content
+                Content = _encryptionService.Encrypt(recordDTO.Content)
             };
 
             if (recordDTO.Images != null)
@@ -50,11 +53,13 @@ namespace Diary.BLL.Services
         public async Task<IEnumerable<Record>> GetUserRecords(RecordFilter recordFilter, PageParams pageParams)
         {
             var userId = Guid.Parse(_userIdStorage.CurrentUserId);
-            var record = await _context
+            var record = 
+                _context
                 .Records
                 .Where(x => x.UserId == userId)
                 .Filter(recordFilter)
-                .ToPagedAsync(pageParams);
+                .ToPaged(pageParams)
+                .Decrypt(_encryptionService);
 
             return record;
         }

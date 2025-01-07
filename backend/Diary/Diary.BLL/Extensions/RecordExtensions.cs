@@ -1,4 +1,5 @@
 ﻿using Diary.BLL.DTO;
+using Diary.BLL.Services;
 using Diary.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,18 +24,26 @@ namespace Diary.BLL.Extensions
             return query;
         }
 
-        public static async Task<IEnumerable<Record>> ToPagedAsync(this IQueryable<Record> query, PageParams pageParams)
+        public static IEnumerable<Record> ToPaged(this IQueryable<Record> query, PageParams pageParams)
         {
             var page = pageParams.Page ?? 1;
             var pageSize = pageParams.PageSize ?? 5;
 
             var skip = (page - 1) * pageSize;
 
-            return await query
-                .Skip(skip)
+            return  query.Skip(skip)
                 .Take(pageSize)
-                .ToArrayAsync();
+                .ToArray();
 
+        }
+
+        public static IEnumerable<Record> Decrypt(this IEnumerable<Record> query, AesEncryptionService decryptor)
+        {
+            foreach (var record in query)
+            {
+                record.Content = decryptor.Decrypt(record.Content);
+                yield return record;
+            }
         }
     }
 }

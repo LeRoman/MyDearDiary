@@ -1,6 +1,7 @@
 ﻿using Diary.BLL.Services.Abstract;
 using Diary.DAL.Context;
 using Diary.DAL.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace Diary.BLL.Services
@@ -8,11 +9,15 @@ namespace Diary.BLL.Services
     public class SessionService : BaseService
     {
         private readonly IConfiguration _configuration;
+        private readonly UserIdStorage _userIdStorage;
 
-        public SessionService(DiaryContext diaryContext, IConfiguration configuration) : base(diaryContext)
+        public SessionService(DiaryContext diaryContext, IConfiguration configuration, UserIdStorage userIdStorage) : base(diaryContext)
         {
             _configuration = configuration;
+            _userIdStorage = userIdStorage;
         }
+
+
         public async Task<Session> CreateSession(User user)
         {
             double sessionLifeTime = Convert.ToDouble(_configuration["Session:LifeTimeHours"]);
@@ -27,6 +32,20 @@ namespace Diary.BLL.Services
 
             return session;
         }
+
+        public async Task RevokeSessionsAsync()
+        {
+            var userId = Guid.Parse(_userIdStorage.CurrentUserId);
+            var sessions = await _context.Sessions
+                 .Where(s => s.UserId == userId && s.IsRevoked == false)
+                 .ToListAsync();
+
+            foreach (var session in sessions)
+            {
+                session.IsRevoked = true; 
+            }
+
+            await _context.SaveChangesAsync();
+        }
     }
 }
-

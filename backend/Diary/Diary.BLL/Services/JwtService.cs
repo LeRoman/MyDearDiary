@@ -24,7 +24,8 @@ namespace Diary.BLL.Services
             {
                 new Claim("UserId", user.Id.ToString()),
                 new Claim("Role", user.Role.ToString()),
-                new Claim("SesionId",session.Id.ToString())
+                new Claim("Status",user.Status.ToString()),
+                new Claim("SessionId",session.Id.ToString())
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));

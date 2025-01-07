@@ -1,5 +1,6 @@
 ﻿using Diary.BLL.Services;
 using Diary.BLL.Services.Abstract;
+using Diary.BLL.Services.BackgroundServices;
 using Diary.DAL.Context;
 using Diary.DAL.Enums;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -20,6 +21,7 @@ namespace Diary.WebAPI.Extentions
             services.AddScoped<SessionService>();
             services.AddTransient<ImageService>();
             services.AddTransient<FileStorageService>();
+            services.AddHostedService<AccountDeletionService>();
             services.AddScoped<UserIdStorage>();
             services.AddTransient<IUserIdSetter>(s => s.GetService<UserIdStorage>());
             services.AddTransient<IUserIdGetter>(s => s.GetService<UserIdStorage>());

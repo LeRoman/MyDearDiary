@@ -1,6 +1,8 @@
 ﻿using Diary.DAL.Context;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.EntityFrameworkCore;
 
 namespace Diary.WebAPI.Filters
 {
@@ -15,19 +17,40 @@ namespace Diary.WebAPI.Filters
 
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
+            var endpoint = context.HttpContext.GetEndpoint();
+            if (endpoint?.Metadata?.GetMetadata<AllowAnonymousAttribute>() != null)
+            {
+                await next();
+                return;
+            }
+
             var user = context.HttpContext.User;
+
+            var userStatus = user.FindFirst("Status")?.Value;
+
+            if (userStatus == "MarkedForDeletion")
+            {
+                context.Result = new RedirectResult("auth/restore");
+            }
+            
             if (user.Identity?.IsAuthenticated == true)
             {
                 var sessionId = user.FindFirst("SessionId")?.Value;
                 if (!string.IsNullOrEmpty(sessionId))
                 {
-                    var session = await _dbContext.Sessions.FindAsync(Guid.Parse(sessionId));
+                    var session = await _dbContext.Sessions.FirstOrDefaultAsync(s => s.Id == Guid.Parse(sessionId));
                     if (session == null || session.IsRevoked || session.ExpiryAt <= DateTime.Now)
                     {
                         context.Result = new UnauthorizedResult();
                         return;
                     }
                 }
+                else
+                {
+                    context.Result = new UnauthorizedResult();
+                    return;
+                }
+
             }
 
             await next();

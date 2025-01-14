@@ -26,7 +26,7 @@ namespace Diary.BLL.Services
             return _context.Records.ToList();
         }
 
-        public async Task AddRecord(RecordDTO recordDTO)
+        public async Task AddRecordAsync(RecordDTO recordDTO)
         {
             var record = new Record()
             {

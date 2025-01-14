@@ -21,7 +21,7 @@ namespace Diary.BLL.Services
         public ImageService(DiaryContext context, FileStorageService fileStorageService, IConfiguration configuration) : base(context)
         {
             _fileStorageService = fileStorageService;
-            _storagePath = configuration.GetRequiredSection("storage:path").Value;
+            _storagePath = configuration["storage:path"];
         }
 
         public async Task<Image> SaveImageAsync(IFormFile image)

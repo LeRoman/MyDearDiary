@@ -5,6 +5,8 @@ using Diary.DAL.Entities;
 using Diary.DAL.Enums;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using SixLabors.ImageSharp;
 
 namespace Diary.BLL.Services
 {
@@ -13,22 +15,25 @@ namespace Diary.BLL.Services
         private readonly JwtService _jwtService;
         private readonly SessionService _sessionService;
         private readonly UserIdStorage _userIdStorage;
+        private readonly double _softDeletePeriod;
 
         public UserService(DiaryContext context, JwtService jwtService,
-            SessionService sessionService, UserIdStorage userIdStorage) : base(context)
+            SessionService sessionService, UserIdStorage userIdStorage, IConfiguration configuration) : base(context)
         {
             _jwtService = jwtService;
             _sessionService = sessionService;
             _userIdStorage = userIdStorage;
+            if (double.TryParse(configuration["Account:SoftDeleteTimeHours"], out double result))
+                _softDeletePeriod = 48;
+            _softDeletePeriod = result;
         }
         public async Task CreateUser(UserCreateDTO userCreateDTO)
         {
-
             var user = new User
             {
                 Nickname = userCreateDTO.Name,
                 Email = userCreateDTO.Email,
-                Role = DAL.Enums.UserRoles.User
+                Role = UserRoles.User
             };
 
             var passHash = new PasswordHasher<User>().HashPassword(user, userCreateDTO.Password);
@@ -48,11 +53,10 @@ namespace Diary.BLL.Services
 
                 if (hashVerifyResult == PasswordVerificationResult.Success)
                 {
-                    var session = _sessionService.CreateSession(user).Result;
+                    var session = _sessionService.CreateSessionAsync(user).Result;
                     return _jwtService.GenerateJwtToken(user, session);
                 }
             }
-
             return null;
         }
 
@@ -83,7 +87,7 @@ namespace Diary.BLL.Services
 
                 if (hashVerifyResult == PasswordVerificationResult.Success)
                 {
-                    if (user.MarkedForDeletionAt > DateTime.Now.AddDays(-2))
+                    if (user.MarkedForDeletionAt > DateTime.Now.AddHours(-_softDeletePeriod))
                     {
                         user.Status = AccountStatus.Active;
                         user.MarkedForDeletionAt = default;

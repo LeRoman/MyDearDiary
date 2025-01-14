@@ -14,11 +14,21 @@ namespace Diary.WebAPI
             builder.Services.AddControllers(options =>
             {
                 options.Filters.Add<ValidateSessionFilter>();
+                options.Filters.Add<CustomExceptionFilterAttribute>();
+
             });
             builder.Services.AddSwaggerGen();
             builder.Services.RegisterCustomServices();
             builder.Services.ConfigureJwt(builder.Configuration);
             builder.Services.ConfigureDB(builder.Configuration);
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowSpecificOrigin",
+                builder => builder.WithOrigins("http://localhost:4200")
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials());
+            });
 
             var app = builder.Build();
 
@@ -27,6 +37,7 @@ namespace Diary.WebAPI
             app.UseSwaggerUI();
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseCors("AllowSpecificOrigin");
 
             app.UseStaticFiles();
             app.UseHttpsRedirection();

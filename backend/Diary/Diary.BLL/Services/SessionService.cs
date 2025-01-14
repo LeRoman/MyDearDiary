@@ -18,13 +18,16 @@ namespace Diary.BLL.Services
         }
 
 
-        public async Task<Session> CreateSession(User user)
+        public async Task<Session> CreateSessionAsync(User user)
         {
-            double sessionLifeTime = Convert.ToDouble(_configuration["Session:LifeTimeHours"]);
+            double sessionLifeTimeHours = 2;
+            if (double.TryParse(_configuration["Session:LifeTimeHours"], out double result))
+                sessionLifeTimeHours = result;
+            
             var session = new Session()
             {
                 UserId = user.Id,
-                ExpiryAt = DateTime.Now.AddHours(sessionLifeTime)
+                ExpiryAt = DateTime.Now.AddHours(sessionLifeTimeHours)
             };
 
             await _context.Sessions.AddAsync(session);

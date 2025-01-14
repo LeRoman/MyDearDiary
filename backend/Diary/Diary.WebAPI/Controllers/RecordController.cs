@@ -32,7 +32,7 @@ namespace Diary.WebAPI.Controllers
         [HttpPost]
         public async Task<ActionResult> AddRecord([FromForm] RecordDTO recordDTO)
         {
-            await _recordService.AddRecord(recordDTO);
+            await _recordService.AddRecordAsync(recordDTO);
             return Ok();
         }
 

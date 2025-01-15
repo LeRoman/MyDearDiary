@@ -7,5 +7,6 @@ namespace Diary.DAL.Entities
         public string Email { get; set; }
         public string Token { get; set; }
         public bool IsUsed { get; set; }
+        public DateTime ExpirationDate { get; set; }
     }
 }

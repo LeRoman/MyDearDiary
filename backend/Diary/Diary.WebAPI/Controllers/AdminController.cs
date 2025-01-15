@@ -1,5 +1,6 @@
-﻿using Diary.BLL.DTO;
+﻿using Diary.BLL.DTO.Account;
 using Diary.BLL.Services;
+using Diary.BLL.Services.Account;
 using Diary.DAL.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,17 +11,21 @@ namespace Diary.WebAPI.Controllers
     public class AdminController : ControllerBase
     {
         private readonly InvitationService _inviteService;
-        private readonly UserService _userService;
 
-        public AdminController(InvitationService inviteService, UserService userService)
+        public AdminController(InvitationService inviteService)
         {
             _inviteService = inviteService;
-            _userService = userService;
         }
-        [HttpGet]
-        public async Task<Invitation> GetInvite([FromQuery]InvitationDTO invitationDTO)
+
+        /// <summary>
+        /// Send invitation to a new user
+        /// </summary>
+        [HttpPost]
+        public async Task<IActionResult> SendInvite([FromBody]InvitationDTO invitationDTO)
         {
-            return await _inviteService.CreateInviteAsync(invitationDTO);
+            var invitation = await _inviteService.CreateInviteAsync(invitationDTO);
+            await _inviteService.SendInvitationAsync(invitation.Email, invitation.Token);
+            return Ok();
         }
 
 

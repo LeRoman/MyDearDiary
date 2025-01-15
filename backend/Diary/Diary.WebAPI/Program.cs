@@ -17,18 +17,14 @@ namespace Diary.WebAPI
                 options.Filters.Add<CustomExceptionFilterAttribute>();
 
             });
-            builder.Services.AddSwaggerGen();
+
             builder.Services.RegisterCustomServices();
+            builder.Services.ConfigureCors();
+            builder.Services.ConfigureSwagger();
             builder.Services.ConfigureJwt(builder.Configuration);
             builder.Services.ConfigureDB(builder.Configuration);
-            builder.Services.AddCors(options =>
-            {
-                options.AddPolicy("AllowSpecificOrigin",
-                builder => builder.WithOrigins("http://localhost:4200")
-                .AllowAnyMethod()
-                .AllowAnyHeader()
-                .AllowCredentials());
-            });
+
+           
 
             var app = builder.Build();
 

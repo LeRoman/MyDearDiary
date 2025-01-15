@@ -1,5 +1,7 @@
-﻿using Diary.BLL.DTO;
-using Diary.BLL.Services;
+﻿using Diary.BLL.DTO.Account;
+using Diary.BLL.DTO.Output;
+using Diary.BLL.Exceptions;
+using Diary.BLL.Services.Account;
 using Diary.WebAPI.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -22,34 +24,44 @@ namespace Diary.WebAPI.Controllers
             _sessionService = sessionService;
         }
 
+        /// <summary>
+        /// Register new user
+        /// </summary>
         [AllowAnonymous]
         [HttpPost("registration")]
         public async Task<IActionResult> RegisterUser([FromBody]UserCreateDTO userCreateDTO)
         {
-            var invitation = await _inviteService.ValidateTokenAsync(userCreateDTO.Token);
-            if (invitation == false)
-            {
-                return BadRequest("Invalid or expired invite token");
-            }
+            var invitation = await _inviteService.ValidateInviteTokenAsync(userCreateDTO.Token);
+
+            if (!invitation) throw new InvalidTokenException();
 
             await _userService.CreateUser(userCreateDTO);
             await _inviteService.MarkTokenAsUsedAsync(userCreateDTO.Token);
+
             return Ok("Registration successful");
         }
 
+        /// <summary>
+        /// Log in into system
+        /// </summary>
         [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody]UserLoginDTO UserLoginDTO)
         {
-            var token = await _userService.Authenticate(UserLoginDTO);
-            if (token == null)
-            {
-                return Unauthorized("Invalid credentials.");
-            }
+            var token = await _userService.Authenticate(UserLoginDTO)
+                ?? throw new InvalidCredentialsException();
 
-            return Ok(token);
+            var tokenDTO = new TokenDTO
+            {
+                Value = token
+            };
+
+            return Ok(tokenDTO);
         }
 
+        /// <summary>
+        /// Terminate all sessions and logout
+        /// </summary>
         [HttpPost("logout")]
         public async Task<IActionResult> Logout()
         {
@@ -57,6 +69,9 @@ namespace Diary.WebAPI.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Delete account
+        /// </summary>
         [HttpPost("delete")]
         public async Task<IActionResult> DeleteAccount([FromBody] AccountDeletionDTO accountDeletionDTO)
         {
@@ -64,6 +79,9 @@ namespace Diary.WebAPI.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Restore account
+        /// </summary>
         [AllowRestore]
         [HttpPost("restore")]
         public async Task<IActionResult> RestoreAccount([FromBody] AccountDeletionDTO accountDeletionDTO)

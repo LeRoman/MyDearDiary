@@ -1,6 +1,9 @@
 ﻿using Diary.BLL.DTO;
+using Diary.BLL.DTO.Record;
 using Diary.BLL.Extensions;
+using Diary.BLL.Mappers;
 using Diary.BLL.Services.Abstract;
+using Diary.BLL.Services.Account;
 using Diary.DAL.Context;
 using Diary.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -23,10 +26,10 @@ namespace Diary.BLL.Services
 
         public async Task<IEnumerable<Record>> GetRecords()
         {
-            return _context.Records.ToList();
+            return await _context.Records.ToListAsync();
         }
 
-        public async Task AddRecordAsync(RecordDTO recordDTO)
+        public async Task AddRecordAsync(CreateRecordDTO recordDTO)
         {
             var record = new Record()
             {
@@ -50,16 +53,17 @@ namespace Diary.BLL.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Record>> GetUserRecords(RecordFilter recordFilter, PageParams pageParams)
+        public  IEnumerable<RecordDTO> GetUserRecords(RecordsListParams recordFilter, PageParams pageParams)
         {
             var userId = Guid.Parse(_userIdStorage.CurrentUserId);
-            var record = 
+            var  record = 
                 _context
                 .Records
                 .Where(x => x.UserId == userId)
                 .Filter(recordFilter)
                 .ToPaged(pageParams)
-                .Decrypt(_encryptionService);
+                .Decrypt(_encryptionService)
+                .Select(x=>RecordMapper.ToDTO(x));
 
             return record;
         }

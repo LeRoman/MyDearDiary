@@ -1,4 +1,5 @@
 ﻿using Diary.BLL.DTO;
+using Diary.BLL.DTO.Record;
 using Diary.BLL.Services;
 using Diary.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -7,7 +8,7 @@ namespace Diary.BLL.Extensions
 {
     public static class RecordExtensions
     {
-        public static IQueryable<Record> Filter(this IQueryable<Record> query, RecordFilter recordFilter)
+        public static IQueryable<Record> Filter(this IQueryable<Record> query, RecordsListParams recordFilter)
         {
             var filter = recordFilter;
             if (!string.IsNullOrEmpty(filter.SearchFragment))

@@ -7,7 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace Diary.BLL.Services
+namespace Diary.BLL.Services.Account
 {
     public class JwtService : BaseService
     {

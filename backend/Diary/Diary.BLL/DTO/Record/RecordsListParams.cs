@@ -1,6 +1,6 @@
 ﻿namespace Diary.BLL.DTO
 {
-    public class RecordFilter
+    public class RecordsListParams
     {
         public DateTime? StartDate {  get; set; }
         public DateTime? EndDate { get; set; }

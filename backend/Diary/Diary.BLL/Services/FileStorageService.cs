@@ -23,7 +23,7 @@ namespace Diary.BLL.Services
 
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
-                stream.Write(file);
+                await stream.WriteAsync(file);
             }
 
             return uniqueFileName;

@@ -1,6 +1,6 @@
 ﻿using Diary.BLL.Services.Abstract;
 
-namespace Diary.BLL.Services
+namespace Diary.BLL.Services.Account
 {
     public class UserIdStorage : IUserIdGetter, IUserIdSetter
     {

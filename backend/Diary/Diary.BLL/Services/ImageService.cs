@@ -32,11 +32,11 @@ namespace Diary.BLL.Services
                 await image.CopyToAsync(memoryStream);
                 memoryStream.Position = 0;
                 var optimizedImage = await OptimizeImageAsync(memoryStream);
-                var fileName = await _fileStorageService.SaveFileAsync(optimizedImage, _storagePath);
+                var fileName = await _fileStorageService.SaveFileAsync(optimizedImage, path);
             }
             return new Image
             {
-                FileName = "fileName",
+                FileName = Guid.NewGuid().ToString(),
                 Path = path,
                 Size = image.Length,
                 UploadedAt = DateTime.Now,

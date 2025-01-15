@@ -8,7 +8,7 @@ namespace Diary.BLL.Services
     {
         private readonly string? key;
         private readonly string? iv;
-        private IConfiguration _configuration;
+        private readonly IConfiguration _configuration;
 
         public AesEncryptionService(IConfiguration configuration)
         {

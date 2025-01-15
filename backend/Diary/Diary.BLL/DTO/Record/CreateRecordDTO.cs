@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace Diary.BLL.DTO
 {
-    public class RecordDTO
+    public class CreateRecordDTO
     {
         [Required]
         [MaxLength(500, ErrorMessage = "Cannot exceed 500 characters")]

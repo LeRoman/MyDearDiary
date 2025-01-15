@@ -1,4 +1,4 @@
-﻿using Diary.BLL.DTO;
+﻿using Diary.BLL.DTO.Account;
 using Diary.BLL.Services.Abstract;
 using Diary.DAL.Context;
 using Diary.DAL.Entities;
@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using SixLabors.ImageSharp;
 
-namespace Diary.BLL.Services
+namespace Diary.BLL.Services.Account
 {
     public class UserService : BaseService
     {
@@ -48,7 +48,7 @@ namespace Diary.BLL.Services
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == userLoginDTO.Email);
             if (user != null)
             {
-                var hashVerifyResult = (user != null)
+                var hashVerifyResult = user != null
                     ? new PasswordHasher<User>().VerifyHashedPassword(user, user.PasswordHash, userLoginDTO.Password) : PasswordVerificationResult.Failed;
 
                 if (hashVerifyResult == PasswordVerificationResult.Success)
@@ -66,7 +66,7 @@ namespace Diary.BLL.Services
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
             if (user != null)
             {
-                var hashVerifyResult = (user != null)
+                var hashVerifyResult = user != null
                     ? new PasswordHasher<User>().VerifyHashedPassword(user, user.PasswordHash, account.Password) : PasswordVerificationResult.Failed;
 
                 if (hashVerifyResult == PasswordVerificationResult.Success)
@@ -82,7 +82,7 @@ namespace Diary.BLL.Services
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
             if (user != null)
             {
-                var hashVerifyResult = (user != null)
+                var hashVerifyResult = user != null
                     ? new PasswordHasher<User>().VerifyHashedPassword(user, user.PasswordHash, account.Password) : PasswordVerificationResult.Failed;
 
                 if (hashVerifyResult == PasswordVerificationResult.Success)
@@ -92,7 +92,7 @@ namespace Diary.BLL.Services
                         user.Status = AccountStatus.Active;
                         user.MarkedForDeletionAt = default;
                         await _context.SaveChangesAsync();
-                    } 
+                    }
                 }
             }
         }
@@ -113,6 +113,6 @@ namespace Diary.BLL.Services
             await _context.SaveChangesAsync();
         }
 
-        
+
     }
 }

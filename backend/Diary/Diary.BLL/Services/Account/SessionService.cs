@@ -4,7 +4,7 @@ using Diary.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-namespace Diary.BLL.Services
+namespace Diary.BLL.Services.Account
 {
     public class SessionService : BaseService
     {
@@ -23,7 +23,7 @@ namespace Diary.BLL.Services
             double sessionLifeTimeHours = 2;
             if (double.TryParse(_configuration["Session:LifeTimeHours"], out double result))
                 sessionLifeTimeHours = result;
-            
+
             var session = new Session()
             {
                 UserId = user.Id,
@@ -45,7 +45,7 @@ namespace Diary.BLL.Services
 
             foreach (var session in sessions)
             {
-                session.IsRevoked = true; 
+                session.IsRevoked = true;
             }
 
             await _context.SaveChangesAsync();

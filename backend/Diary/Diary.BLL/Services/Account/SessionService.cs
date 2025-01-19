@@ -1,4 +1,5 @@
 ﻿using Diary.BLL.Services.Abstract;
+using Diary.BLL.Services.Interfaces;
 using Diary.DAL.Context;
 using Diary.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -6,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace Diary.BLL.Services.Account
 {
-    public class SessionService : BaseService
+    public class SessionService : BaseService, ISessionService
     {
         private readonly IConfiguration _configuration;
         private readonly UserIdStorage _userIdStorage;

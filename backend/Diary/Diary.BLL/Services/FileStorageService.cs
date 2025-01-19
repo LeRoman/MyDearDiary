@@ -1,19 +1,14 @@
 ﻿using Diary.BLL.Services.Abstract;
+using Diary.BLL.Services.Interfaces;
 using Diary.DAL.Context;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Diary.BLL.Services
 {
-    public class FileStorageService : BaseService
+    public class FileStorageService : BaseService, IFileStorageService
     {
         public FileStorageService(DiaryContext context) : base(context) { }
 
-        internal async Task<string> SaveFileAsync(byte[] file, string folderPath, string fileExtension=".jpeg")
+        public async Task<string> SaveFileAsync(byte[] file, string folderPath, string fileExtension = ".jpeg")
         {
             EnsureDirectoryExists(folderPath);
 

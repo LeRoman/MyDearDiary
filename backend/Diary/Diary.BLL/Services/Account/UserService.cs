@@ -1,24 +1,24 @@
 ﻿using Diary.BLL.DTO.Account;
 using Diary.BLL.Services.Abstract;
+using Diary.BLL.Services.Interfaces;
 using Diary.DAL.Context;
 using Diary.DAL.Entities;
 using Diary.DAL.Enums;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using SixLabors.ImageSharp;
 
 namespace Diary.BLL.Services.Account
 {
-    public class UserService : BaseService
+    public class UserService : BaseService, IUserService
     {
-        private readonly JwtService _jwtService;
-        private readonly SessionService _sessionService;
+        private readonly IJwtService _jwtService;
+        private readonly ISessionService _sessionService;
         private readonly UserIdStorage _userIdStorage;
         private readonly double _softDeletePeriod;
 
-        public UserService(DiaryContext context, JwtService jwtService,
-            SessionService sessionService, UserIdStorage userIdStorage, IConfiguration configuration) : base(context)
+        public UserService(DiaryContext context, IJwtService jwtService,
+            ISessionService sessionService, UserIdStorage userIdStorage, IConfiguration configuration) : base(context)
         {
             _jwtService = jwtService;
             _sessionService = sessionService;
@@ -43,7 +43,7 @@ namespace Diary.BLL.Services.Account
             await _context.SaveChangesAsync();
         }
 
-        public async Task<string?> Authenticate(UserLoginDTO userLoginDTO)
+        public async Task<string?> AuthenticateAsync(UserLoginDTO userLoginDTO)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == userLoginDTO.Email);
             if (user != null)
@@ -53,7 +53,8 @@ namespace Diary.BLL.Services.Account
 
                 if (hashVerifyResult == PasswordVerificationResult.Success)
                 {
-                    var session = _sessionService.CreateSessionAsync(user).Result;
+                    var session = await _sessionService.CreateSessionAsync(user);
+                    var token = _jwtService.GenerateJwtToken(user, session);
                     return _jwtService.GenerateJwtToken(user, session);
                 }
             }

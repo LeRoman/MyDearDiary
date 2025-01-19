@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Diary.BLL.DTO
+namespace Diary.BLL.DTO.Account
 {
     public class AccountDeletionDTO
     {

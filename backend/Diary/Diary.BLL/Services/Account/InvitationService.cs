@@ -1,5 +1,6 @@
 ﻿using Diary.BLL.DTO.Account;
 using Diary.BLL.Services.Abstract;
+using Diary.BLL.Services.Interfaces;
 using Diary.DAL.Context;
 using Diary.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -7,11 +8,11 @@ using System.Security.Cryptography;
 
 namespace Diary.BLL.Services.Account
 {
-    public class InvitationService : BaseService
+    public class InvitationService : BaseService, IInvitationService
     {
-        private readonly EmailService _emailService;
+        private readonly IEmailService _emailService;
 
-        public InvitationService(DiaryContext diaryContext, EmailService emailService) : base(diaryContext)
+        public InvitationService(DiaryContext diaryContext, IEmailService emailService) : base(diaryContext)
         {
             _emailService = emailService;
         }

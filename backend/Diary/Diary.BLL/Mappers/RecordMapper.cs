@@ -10,9 +10,9 @@ namespace Diary.BLL.Mappers
         {
             return new RecordDTO
             {
-                Id=record.Id.ToString(),
-                Content=record.Content,
-                CreatedAt=record.CreatedAt.ToString("dd/MM/yy, HH:mm", CultureInfo.InvariantCulture),
+                Id = record.Id.ToString(),
+                Content = record.Content,
+                CreatedAt = record.CreatedAt.ToString("dd/MM/yy, HH:mm", CultureInfo.InvariantCulture),
             };
         }
     }

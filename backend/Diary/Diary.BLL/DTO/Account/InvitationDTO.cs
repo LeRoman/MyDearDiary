@@ -1,4 +1,4 @@
-﻿namespace Diary.BLL.DTO
+﻿namespace Diary.BLL.DTO.Account
 {
     public class InvitationDTO
     {

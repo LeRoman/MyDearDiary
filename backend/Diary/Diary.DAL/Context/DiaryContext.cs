@@ -23,7 +23,7 @@ namespace Diary.DAL.Context
             modelBuilder.Entity<Record>()
                 .HasMany(e => e.Images)
                 .WithOne(i => i.Record)
-                .HasForeignKey(k=>k.RecordId)
+                .HasForeignKey(k => k.RecordId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<User>()

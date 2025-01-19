@@ -1,10 +1,11 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Diary.BLL.Services.Interfaces;
+using Microsoft.Extensions.Configuration;
 using System.Security.Cryptography;
 using System.Text;
 
 namespace Diary.BLL.Services
 {
-    public class AesEncryptionService
+    public class AesEncryptionService : IAesEncryptionService
     {
         private readonly string? key;
         private readonly string? iv;

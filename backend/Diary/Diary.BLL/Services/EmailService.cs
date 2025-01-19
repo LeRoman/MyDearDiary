@@ -1,10 +1,11 @@
-﻿using MailKit.Net.Smtp;
+﻿using Diary.BLL.Services.Interfaces;
+using MailKit.Net.Smtp;
 using Microsoft.Extensions.Configuration;
 using MimeKit;
 
 namespace Diary.BLL.Services
 {
-    public class EmailService
+    public class EmailService : IEmailService
     {
         private readonly IConfiguration _configuration;
 

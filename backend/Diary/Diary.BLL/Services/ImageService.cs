@@ -1,24 +1,21 @@
 ﻿using Diary.BLL.Services.Abstract;
+using Diary.BLL.Services.Interfaces;
 using Diary.DAL.Context;
 using Diary.DAL.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
-using SharpImage = SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats.Jpeg;
-using SixLabors.ImageSharp.Formats.Png;
-using SixLabors.ImageSharp.Formats.Webp;
 using SixLabors.ImageSharp.Processing;
-using System.IO;
-using System;
+using SharpImage = SixLabors.ImageSharp;
 
 namespace Diary.BLL.Services
 {
-    public class ImageService : BaseService
+    public class ImageService : BaseService, IImageService
     {
-        private readonly FileStorageService _fileStorageService;
+        private readonly IFileStorageService _fileStorageService;
         private readonly string? _storagePath;
 
-        public ImageService(DiaryContext context, FileStorageService fileStorageService, IConfiguration configuration) : base(context)
+        public ImageService(DiaryContext context, IFileStorageService fileStorageService, IConfiguration configuration) : base(context)
         {
             _fileStorageService = fileStorageService;
             _storagePath = configuration["storage:path"];

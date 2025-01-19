@@ -1,8 +1,7 @@
 ﻿using Diary.BLL.DTO;
 using Diary.BLL.DTO.Record;
-using Diary.BLL.Services;
+using Diary.BLL.Services.Interfaces;
 using Diary.DAL.Entities;
-using Microsoft.EntityFrameworkCore;
 
 namespace Diary.BLL.Extensions
 {
@@ -32,13 +31,13 @@ namespace Diary.BLL.Extensions
 
             var skip = (page - 1) * pageSize;
 
-            return  query.Skip(skip)
+            return query.Skip(skip)
                 .Take(pageSize)
                 .ToArray();
 
         }
 
-        public static IEnumerable<Record> Decrypt(this IEnumerable<Record> query, AesEncryptionService decryptor)
+        public static IEnumerable<Record> Decrypt(this IEnumerable<Record> query, IAesEncryptionService decryptor)
         {
             foreach (var record in query)
             {

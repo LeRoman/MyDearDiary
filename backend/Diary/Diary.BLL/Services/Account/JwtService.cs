@@ -1,4 +1,5 @@
 ﻿using Diary.BLL.Services.Abstract;
+using Diary.BLL.Services.Interfaces;
 using Diary.DAL.Context;
 using Diary.DAL.Entities;
 using Microsoft.Extensions.Configuration;
@@ -9,7 +10,7 @@ using System.Text;
 
 namespace Diary.BLL.Services.Account
 {
-    public class JwtService : BaseService
+    public class JwtService : BaseService, IJwtService
     {
         private readonly IConfiguration _configuration;
 

@@ -4,20 +4,21 @@ using Diary.BLL.Extensions;
 using Diary.BLL.Mappers;
 using Diary.BLL.Services.Abstract;
 using Diary.BLL.Services.Account;
+using Diary.BLL.Services.Interfaces;
 using Diary.DAL.Context;
 using Diary.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Diary.BLL.Services
 {
-    public class RecordsService : BaseService
+    public class RecordsService : BaseService, IRecordsService
     {
         private readonly UserIdStorage _userIdStorage;
-        private readonly ImageService _imageService;
-        private readonly AesEncryptionService _encryptionService;
+        private readonly IImageService _imageService;
+        private readonly IAesEncryptionService _encryptionService;
 
         public RecordsService(DiaryContext diaryContext, UserIdStorage userIdStorage,
-            ImageService imageService, AesEncryptionService encryptionService) : base(diaryContext)
+            IImageService imageService, IAesEncryptionService encryptionService) : base(diaryContext)
         {
             _userIdStorage = userIdStorage;
             _imageService = imageService;
@@ -53,17 +54,17 @@ namespace Diary.BLL.Services
             await _context.SaveChangesAsync();
         }
 
-        public  IEnumerable<RecordDTO> GetUserRecords(RecordsListParams recordFilter, PageParams pageParams)
+        public IEnumerable<RecordDTO> GetUserRecords(RecordsListParams recordFilter, PageParams pageParams)
         {
             var userId = Guid.Parse(_userIdStorage.CurrentUserId);
-            var  record = 
+            var record =
                 _context
                 .Records
                 .Where(x => x.UserId == userId)
                 .Filter(recordFilter)
                 .ToPaged(pageParams)
                 .Decrypt(_encryptionService)
-                .Select(x=>RecordMapper.ToDTO(x));
+                .Select(x => RecordMapper.ToDTO(x));
 
             return record;
         }

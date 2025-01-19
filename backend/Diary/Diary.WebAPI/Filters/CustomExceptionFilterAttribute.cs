@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
+﻿using Diary.WebAPI.Extentions;
 using Microsoft.AspNetCore.Mvc;
-using Diary.WebAPI.Extentions;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Diary.WebAPI.Filters
 {

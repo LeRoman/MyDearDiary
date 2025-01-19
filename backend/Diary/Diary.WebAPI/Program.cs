@@ -4,10 +4,11 @@ using Diary.WebAPI.Middlewares;
 
 namespace Diary.WebAPI
 {
-    public class Program
+    public partial class Program
     {
         public static void Main(string[] args)
         {
+
             var builder = WebApplication.CreateBuilder(
                 new WebApplicationOptions { WebRootPath = "storage" });
 
@@ -23,14 +24,20 @@ namespace Diary.WebAPI
             builder.Services.ConfigureSwagger();
             builder.Services.ConfigureJwt(builder.Configuration);
             builder.Services.ConfigureDB(builder.Configuration);
+            builder.Services.AddEndpointsApiExplorer();
 
-           
 
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
             app.UseSwagger();
             app.UseSwaggerUI();
+            app.Use(async (context, next) =>
+            {
+                Console.WriteLine($"Request: {context.Request.Method} {context.Request.Path}");
+                await next();
+                Console.WriteLine($"Response: {context.Response.StatusCode}");
+            });
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseCors("AllowSpecificOrigin");
@@ -40,7 +47,11 @@ namespace Diary.WebAPI
             app.UseMiddleware<UserIdSaverMiddleware>();
             app.MapControllers();
 
+
+
             app.Run();
         }
     }
+
 }
+

@@ -1,5 +1,4 @@
 ﻿using Diary.BLL.DTO.Account;
-using Diary.BLL.DTO.Output;
 using Diary.BLL.Exceptions;
 using Diary.BLL.Services.Account;
 using Diary.WebAPI.Filters;
@@ -29,7 +28,7 @@ namespace Diary.WebAPI.Controllers
         /// </summary>
         [AllowAnonymous]
         [HttpPost("registration")]
-        public async Task<IActionResult> RegisterUser([FromBody]UserCreateDTO userCreateDTO)
+        public async Task<IActionResult> RegisterUser([FromBody] UserCreateDTO userCreateDTO)
         {
             var invitation = await _inviteService.ValidateInviteTokenAsync(userCreateDTO.Token);
 
@@ -46,9 +45,9 @@ namespace Diary.WebAPI.Controllers
         /// </summary>
         [AllowAnonymous]
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody]UserLoginDTO UserLoginDTO)
+        public async Task<IActionResult> Login([FromBody] UserLoginDTO UserLoginDTO)
         {
-            var token = await _userService.Authenticate(UserLoginDTO)
+            var token = await _userService.AuthenticateAsync(UserLoginDTO)
                 ?? throw new InvalidCredentialsException();
 
             var tokenDTO = new TokenDTO

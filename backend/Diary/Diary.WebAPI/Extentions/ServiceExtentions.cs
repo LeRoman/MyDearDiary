@@ -2,6 +2,7 @@
 using Diary.BLL.Services.Abstract;
 using Diary.BLL.Services.Account;
 using Diary.BLL.Services.BackgroundServices;
+using Diary.BLL.Services.Interfaces;
 using Diary.DAL.Context;
 using Diary.DAL.Enums;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -17,16 +18,16 @@ namespace Diary.WebAPI.Extentions
     {
         public static void RegisterCustomServices(this IServiceCollection services)
         {
-            services.AddSingleton<AesEncryptionService>();
-            services.AddScoped<RecordsService>();
-            services.AddScoped<InvitationService>();
-            services.AddScoped<JwtService>();
-            services.AddScoped<UserService>();
-            services.AddScoped<SessionService>();
-            services.AddTransient<ImageService>();
-            services.AddTransient<FileStorageService>();
+            services.AddSingleton<IAesEncryptionService, AesEncryptionService>();
+            services.AddScoped<IRecordsService, RecordsService>();
+            services.AddScoped<IInvitationService, InvitationService>();
+            services.AddScoped<IJwtService, JwtService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ISessionService, SessionService>();
+            services.AddTransient<IImageService, ImageService>();
+            services.AddTransient<IFileStorageService, FileStorageService>();
             services.AddHostedService<AccountDeletionService>();
-            services.AddScoped<EmailService>();
+            services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<UserIdStorage>();
             services.AddTransient<IUserIdSetter>(s => s.GetService<UserIdStorage>());
             services.AddTransient<IUserIdGetter>(s => s.GetService<UserIdStorage>());

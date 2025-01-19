@@ -32,7 +32,7 @@ namespace Diary.WebAPI.Filters
             {
                 context.Result = new RedirectResult("auth/restore");
             }
-            
+
             if (user.Identity?.IsAuthenticated == true)
             {
                 var sessionId = user.FindFirst("SessionId")?.Value;

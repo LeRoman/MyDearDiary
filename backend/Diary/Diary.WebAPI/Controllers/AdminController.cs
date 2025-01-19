@@ -1,7 +1,5 @@
 ﻿using Diary.BLL.DTO.Account;
-using Diary.BLL.Services;
 using Diary.BLL.Services.Account;
-using Diary.DAL.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Diary.WebAPI.Controllers
@@ -20,8 +18,8 @@ namespace Diary.WebAPI.Controllers
         /// <summary>
         /// Send invitation to a new user
         /// </summary>
-        [HttpPost]
-        public async Task<IActionResult> SendInvite([FromBody]InvitationDTO invitationDTO)
+        [HttpPost("admin")]
+        public async Task<IActionResult> SendInvite([FromBody] InvitationDTO invitationDTO)
         {
             var invitation = await _inviteService.CreateInviteAsync(invitationDTO);
             await _inviteService.SendInvitationAsync(invitation.Email, invitation.Token);

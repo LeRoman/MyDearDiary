@@ -1,6 +1,5 @@
 ﻿using Diary.BLL.Exceptions;
 using Diary.WebAPI.Enums;
-using Microsoft.AspNetCore.Http.HttpResults;
 using System.Net;
 
 namespace Diary.WebAPI.Extentions
@@ -11,8 +10,8 @@ namespace Diary.WebAPI.Extentions
         {
             return exception switch
             {
-                BadRequestException _ =>(HttpStatusCode.BadRequest,ErrorCode.BadRequest),
-                NotFoundException _ => (HttpStatusCode.NotFound, ErrorCode.NotFound),
+                BadRequestException _ => (HttpStatusCode.BadRequest, ErrorCode.BadRequest),
+                // NotFoundException _ => (HttpStatusCode.NotFound, ErrorCode.NotFound),
                 InvalidCredentialsException _ => (HttpStatusCode.Unauthorized, ErrorCode.InvalidUsernameOrPassword),
                 InvalidTokenException _ => (HttpStatusCode.Unauthorized, ErrorCode.InvalidToken),
                 _ => (HttpStatusCode.InternalServerError, ErrorCode.General),

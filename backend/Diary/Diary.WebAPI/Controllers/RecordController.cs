@@ -30,7 +30,7 @@ namespace Diary.WebAPI.Controllers
             [FromQuery] PageParams pageParams
             )
         {
-            var records =  _recordService.GetUserRecords(recordFilter, pageParams);
+            var records = _recordService.GetUserRecords(recordFilter, pageParams);
             return Ok(records);
         }
 

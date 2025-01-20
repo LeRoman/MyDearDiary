@@ -1,7 +1,7 @@
 using Diary.BLL.DTO;
 using Diary.BLL.DTO.Record;
 using Diary.BLL.Exceptions;
-using Diary.BLL.Services;
+using Diary.BLL.Services.Interfaces;
 using Diary.DAL.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,9 +13,9 @@ namespace Diary.WebAPI.Controllers
     [Authorize]
     public class RecordController : ControllerBase
     {
-        private readonly RecordsService _recordService;
+        private readonly IRecordsService _recordService;
 
-        public RecordController(RecordsService recordsService)
+        public RecordController(IRecordsService recordsService)
         {
             _recordService = recordsService;
         }

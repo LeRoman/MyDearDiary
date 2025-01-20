@@ -1,6 +1,7 @@
 ﻿using Diary.BLL.DTO.Account;
 using Diary.BLL.Exceptions;
 using Diary.BLL.Services.Account;
+using Diary.BLL.Services.Interfaces;
 using Diary.WebAPI.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,11 +13,11 @@ namespace Diary.WebAPI.Controllers
     [Authorize]
     public class AuthController : Controller
     {
-        private readonly InvitationService _inviteService;
-        private readonly UserService _userService;
-        private readonly SessionService _sessionService;
+        private readonly IInvitationService _inviteService;
+        private readonly IUserService _userService;
+        private readonly ISessionService _sessionService;
 
-        public AuthController(InvitationService inviteService, UserService userService, SessionService sessionService)
+        public AuthController(IInvitationService inviteService, IUserService userService, ISessionService sessionService)
         {
             _inviteService = inviteService;
             _userService = userService;

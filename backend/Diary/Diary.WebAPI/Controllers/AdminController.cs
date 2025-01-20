@@ -1,5 +1,6 @@
 ﻿using Diary.BLL.DTO.Account;
 using Diary.BLL.Services.Account;
+using Diary.BLL.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Diary.WebAPI.Controllers
@@ -8,9 +9,9 @@ namespace Diary.WebAPI.Controllers
     [Route("api/[controller]")]
     public class AdminController : ControllerBase
     {
-        private readonly InvitationService _inviteService;
+        private readonly IInvitationService _inviteService;
 
-        public AdminController(InvitationService inviteService)
+        public AdminController(IInvitationService inviteService)
         {
             _inviteService = inviteService;
         }

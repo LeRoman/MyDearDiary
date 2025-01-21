@@ -1,0 +1,18 @@
+.home-container {
+  height: 100%;
+  width: 100%
+}
+
+.feed {
+  margin-bottom: 1%;
+  width: 40%;
+  justify-self: center;
+}
+
+.toolbar {
+  background-color: black;
+}
+
+.title {
+  color: aqua;
+}

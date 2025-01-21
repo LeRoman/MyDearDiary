@@ -1,0 +1,31 @@
+<div class="home-container">
+  <mat-toolbar class="toolbar">
+    <span class="title">MyDiary</span>
+  </mat-toolbar>
+
+  <div class="feed">
+    <div *ngIf="!showNewRecordContainer">
+      <button mat-raised-button (click)="showRecordContainer()">+</button>
+    </div>
+    <div *ngIf="showNewRecordContainer">
+      <button mat-raised-button (click)="showRecordContainer()">-</button>
+    </div>
+    <div>
+      <mat-card *ngIf="showNewRecordContainer">
+        <mat-card-content>
+          <h1>asdasdasds</h1>
+          <mat-form-field>
+            <textarea
+              [(ngModel)]="body"
+              matInput
+              placeholder="Write something..."
+            ></textarea>
+          </mat-form-field>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div *ngFor="let record of recordList">
+      <app-record [record]="record"></app-record>
+    </div>
+  </div>
+</div>

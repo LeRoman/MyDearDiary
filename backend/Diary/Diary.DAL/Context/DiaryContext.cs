@@ -17,7 +17,7 @@ namespace Diary.DAL.Context
         {
             modelBuilder.Entity<Record>()
                 .Property(r => r.Content)
-                .HasMaxLength(500)
+                .HasMaxLength(1100)
                 .IsRequired();
 
             modelBuilder.Entity<Record>()

@@ -4,7 +4,9 @@
 
 .mat-card {
     width: 100%;
-    margin-bottom: 5%;
+    max-width: 400px;
+    margin-bottom: 3%;
+    margin-top: 3%;
     height: 100%;
 
 }
@@ -14,9 +16,9 @@
     outline: 1px solid rgba(28, 110, 164, 0.24);
     outline-offset: 0px;
     margin: 2%;
+    text-align: justify;
+    word-wrap: break-word;
 }
-
-
 
 .mat-card-header {
     height: 5%;

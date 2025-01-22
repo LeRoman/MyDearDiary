@@ -31,7 +31,8 @@ namespace Diary.BLL.Extensions
 
             var skip = (page - 1) * pageSize;
 
-            return query.Skip(skip)
+            return query.OrderByDescending(k=>k.CreatedAt)
+                .Skip(skip)
                 .Take(pageSize)
                 .ToArray();
 

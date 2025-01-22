@@ -8,6 +8,9 @@ export class AuthService {
   constructor(@Inject(PLATFORM_ID) private platformId: object) {}
   private readonly TOKEN_KEY = 'auth_token';
 
+  logout() {
+    this.removeToken();
+  }
   setToken(token: string): void {
     localStorage.setItem(this.TOKEN_KEY, token);
   }

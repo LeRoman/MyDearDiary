@@ -8,6 +8,9 @@ import { MaterialModules } from '../../../material.import';
 import { MatDialogContent, MatDialogTitle } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 import { RecordComponent } from '../record/record.component';
+import { NewRecord } from '../../../models/new-record';
+import { Router } from '@angular/router';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -17,25 +20,51 @@ import { RecordComponent } from '../record/record.component';
   styleUrl: './home.component.css',
 })
 export class HomeComponent implements OnInit {
+  public recordList: Record[] = [];
+  public showNewRecordContainer = false;
+  newRecord: NewRecord = new NewRecord();
+
+  constructor(
+    private recordService: RecordService,
+    private router: Router,
+    private authService: AuthService
+  ) {}
+
+  clearList(): void {
+    this.recordList = [];
+  }
+
+  addRecord(newRecord: NewRecord) {
+    this.recordService.addRecord(newRecord).subscribe(() => {
+      this.clearList();
+      this.getRecordList();
+    });
+  }
+
   showRecordContainer() {
     this.showNewRecordContainer = !this.showNewRecordContainer;
   }
-  public recordList: Record[] = [];
-  public showNewRecordContainer = false;
-  constructor(private recordService: RecordService) {}
-
-  body: string = '';
 
   ngOnInit(): void {
-    console.log('invoked!');
     this.recordService
       .getRecords()
       .subscribe((data) => (this.recordList = data));
   }
-  
+
   getRecordList() {
-    this.recordService
-      .getRecords()
-      .subscribe((data) => (this.recordList = data));
+    this.recordService.getRecords().subscribe((data) => {
+      this.recordList = data;
+      this.closeNewPostContainer();
+    });
+  }
+
+  closeNewPostContainer(): void {
+    this.showRecordContainer();
+    this.newRecord.Content = '';
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 }

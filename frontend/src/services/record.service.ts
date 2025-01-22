@@ -1,16 +1,25 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Record } from '../models/record';
+import { NewRecord } from '../models/new-record';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RecordService {
+  private readonly basicUrl: string = 'https://localhost:7094/api';
   constructor(private http: HttpClient) {}
 
+  addRecord(newRecord: NewRecord): Observable<any> {
+    console.log('add record invoke');
+    const formData = new FormData();
+    formData.append('Content', newRecord.Content);
+    return this.http.post(this.basicUrl + '/record', formData);
+  }
+
   getRecords(): Observable<Record[]> {
-    return this.http.get<Record[]>('https://localhost:7094/api/record');
+    return this.http.get<Record[]>(this.basicUrl + '/record');
   }
 
   // getRecord(id: number): Observable<Record> {

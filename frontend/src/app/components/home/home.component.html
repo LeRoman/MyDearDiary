@@ -1,26 +1,46 @@
 <div class="home-container">
   <mat-toolbar class="toolbar">
-    <span class="title">MyDiary</span>
+    <div>
+      <span class="title">MyDiary</span>
+    </div>
+    <div>
+      <button mat-raised-button color="warn" (click)="logout()">Logout</button>
+    </div>
   </mat-toolbar>
 
   <div class="feed">
-    <div *ngIf="!showNewRecordContainer">
-      <button mat-raised-button (click)="showRecordContainer()">+</button>
+    <div class="add-button">
+      <div *ngIf="!showNewRecordContainer">
+        <button mat-raised-button (click)="showRecordContainer()">
+          New Record
+        </button>
+      </div>
+      <div *ngIf="showNewRecordContainer">
+        <button mat-raised-button (click)="showRecordContainer()">Close</button>
+      </div>
     </div>
-    <div *ngIf="showNewRecordContainer">
-      <button mat-raised-button (click)="showRecordContainer()">-</button>
-    </div>
-    <div>
+    <div class="new-record">
       <mat-card *ngIf="showNewRecordContainer">
         <mat-card-content>
-          <h1>asdasdasds</h1>
-          <mat-form-field>
+          <h1 style="align-self: center">How it's going?</h1>
+          <mat-form-field class="input-field">
             <textarea
-              [(ngModel)]="body"
+              [(ngModel)]="newRecord.Content"
               matInput
               placeholder="Write something..."
+              style="height: 200px"
             ></textarea>
           </mat-form-field>
+          <div class="button-panel">
+            <div>
+              <label [textContent]="newRecord.Content.length"></label>
+              <label>/500</label>
+            </div>
+
+            <button mat-raised-button (click)="addRecord(newRecord)">
+              Add to diary
+            </button>
+          </div>
         </mat-card-content>
       </mat-card>
     </div>

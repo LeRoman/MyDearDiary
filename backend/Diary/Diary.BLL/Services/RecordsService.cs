@@ -54,17 +54,19 @@ namespace Diary.BLL.Services
             await _context.SaveChangesAsync();
         }
 
-        public IEnumerable<RecordDTO> GetUserRecords(RecordsListParams recordFilter, PageParams pageParams)
+        public PagedResult<RecordDTO> GetUserRecords(RecordsListParams recordFilter, PageParams pageParams)
         {
             var userId = Guid.Parse(_userIdStorage.CurrentUserId);
             var record =
                 _context
                 .Records
                 .Where(x => x.UserId == userId)
-                .Filter(recordFilter)
-                .ToPaged(pageParams)
+                .FilterByDate(recordFilter)
                 .Decrypt(_encryptionService)
-                .Select(x => RecordMapper.ToDTO(x));
+                .FilterByContent(recordFilter)
+                .Select(x => RecordMapper.ToDTO(x))
+                .ToPaged(pageParams);
+                
 
             return record;
         }

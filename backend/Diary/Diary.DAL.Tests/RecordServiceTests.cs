@@ -92,7 +92,7 @@ namespace Diary.DAL.Tests
             await _context.SaveChangesAsync();
 
             //Act
-            var result = _recordService.GetUserRecords(recordListParamsMock.Object, pageParamsMock.Object).ToList();
+            var result = _recordService.GetUserRecords(recordListParamsMock.Object, pageParamsMock.Object);
 
             //Assert
             Assert.NotNull(result);

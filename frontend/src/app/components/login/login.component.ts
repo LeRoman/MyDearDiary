@@ -1,13 +1,10 @@
 import { Component } from '@angular/core';
-import { RecordService } from '../../../services/record.service';
-import { HttpClient } from '@angular/common/http';
-import { NgFor, NgForOf, NgIf } from '@angular/common';
 import { UserLoginDto } from '../../../models/Auth/user-login-dto';
 import { MaterialModules } from '../../../material.import';
 import { FormsModule, NgModel } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
-
 import { Router, RouterLink } from '@angular/router';
+import { SnackBarService } from '../../../services/snack-bar.service';
 
 @Component({
   selector: 'app-login',
@@ -19,22 +16,14 @@ export class LoginComponent {
   public loginDto: UserLoginDto = new UserLoginDto();
 
   constructor(
-    private recordService: RecordService,
+    private snackBarService: SnackBarService,
     private authService: AuthService,
-    private http: HttpClient,
     private router: Router
   ) {}
 
-  clearForm(): void {
-    this.loginDto.email = '';
-    this.loginDto.password = '';
-  }
   login(): void {
-    this.http
-      .post<{ value: string }>(' https://localhost:7094/api/auth/login', {
-        email: this.loginDto.email,
-        password: this.loginDto.password,
-      })
+    this.authService
+      .login(this.loginDto.email, this.loginDto.password)
       .subscribe({
         next: (response) => {
           console.log('Received token:', response.value);
@@ -42,9 +31,17 @@ export class LoginComponent {
           this.router.navigate(['']);
         },
         error: (err) => {
+          const errorMessage =
+            err.error?.error || 'An unexpected error occurred.';
+          this.snackBarService.showErrorMessage(errorMessage);
           console.error('Login failed:', err);
           this.clearForm();
         },
       });
+  }
+
+  clearForm(): void {
+    this.loginDto.email = '';
+    this.loginDto.password = '';
   }
 }

@@ -19,7 +19,7 @@ namespace Diary.WebAPI.Controllers
         /// <summary>
         /// Send invitation to a new user
         /// </summary>
-        [HttpPost("admin")]
+        [HttpPost("sendinvite")]
         public async Task<IActionResult> SendInvite([FromBody] InvitationDTO invitationDTO)
         {
             var invitation = await _inviteService.CreateInviteAsync(invitationDTO);

@@ -1,1 +1,42 @@
-<p>register works!</p>
+<div class="register-container">
+  <div class="register-form">
+    <div><h2 mat-dialog-title class="title">Create account</h2></div>
+
+    <div mat-dialog-content>
+      <form name="authForm" #authForm="ngForm">
+        <mat-form-field>
+          <input
+            name="authEmail"
+            [(ngModel)]="newUser.email"
+            #inEmail="ngModel"
+            matInput
+            placeholder="Email"
+          />
+        </mat-form-field>
+        <br />
+        <mat-form-field>
+          <input
+            name="authPassword"
+            [(ngModel)]="newUser.password"
+            #upPassword="ngModel"
+            matInput
+            placeholder="Password"
+          />
+        </mat-form-field>
+        <br />
+        <mat-form-field>
+          <input
+            name="authPassword"
+            [(ngModel)]="newUser.nickName"
+            #upPassword="ngModel"
+            matInput
+            placeholder="Nickname"
+          />
+        </mat-form-field>
+      </form>
+      <div class="register-button">
+        <button mat-button (click)="register()">Sign Up</button>
+      </div>
+    </div>
+  </div>
+</div>

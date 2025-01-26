@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Record } from '../models/record';
 import { NewRecord } from '../models/new-record';
+import { PagedResult } from '../models/paged-result';
 
 @Injectable({
   providedIn: 'root',
@@ -18,8 +19,15 @@ export class RecordService {
     return this.http.post(this.basicUrl + '/record', formData);
   }
 
-  getRecords(): Observable<Record[]> {
-    return this.http.get<Record[]>(this.basicUrl + '/record');
+  getRecords(): Observable<PagedResult> {
+    console.log('getrecords invoked');
+    return this.http.get<PagedResult>(this.basicUrl + '/record');
+  }
+
+  getParametrizedRecords(paremaetrQuery: string): Observable<PagedResult> {
+    return this.http.get<PagedResult>(
+      this.basicUrl + '/record?' + paremaetrQuery
+    );
   }
 
   // getRecord(id: number): Observable<Record> {

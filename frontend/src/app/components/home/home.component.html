@@ -1,22 +1,49 @@
+<mat-toolbar class="toolbar">
+  <div>
+    <span class="title">MyDiary</span>
+  </div>
+  <div>
+    <button class="add-button" (click)="logout()">Logout</button>
+  </div>
+</mat-toolbar>
+
 <div class="home-container">
-  <mat-toolbar class="toolbar">
-    <div>
-      <span class="title">MyDiary</span>
+  <div class="options">
+    <div class="filter-container">
+      <input
+        type="text"
+        id="search"
+        [(ngModel)]="searchField"
+        placeholder="Search fragment..."
+      />
+
+      <input
+        type="date"
+        id="dateFrom"
+        [(ngModel)]="startDateField"
+        placeholder="From date"
+      />
+      <input
+        type="date"
+        id="dateTo"
+        [(ngModel)]="endDateField"
+        placeholder="To date"
+      />
+      <button id="filterButton" (click)="gerFilteredRecords()">Filter</button>
     </div>
-    <div>
-      <button mat-raised-button color="warn" (click)="logout()">Logout</button>
-    </div>
-  </mat-toolbar>
+  </div>
 
   <div class="feed">
-    <div class="add-button">
+    <div>
       <div *ngIf="!showNewRecordContainer">
-        <button mat-raised-button (click)="showRecordContainer()">
+        <button class="add-button" (click)="showRecordContainer()">
           New Record
         </button>
       </div>
       <div *ngIf="showNewRecordContainer">
-        <button mat-raised-button (click)="showRecordContainer()">Close</button>
+        <button class="add-button" (click)="showRecordContainer()">
+          Close
+        </button>
       </div>
     </div>
     <div class="new-record">
@@ -37,15 +64,29 @@
               <label>/500</label>
             </div>
 
-            <button mat-raised-button (click)="addRecord(newRecord)">
+            <button class="add-button" (click)="addRecord(newRecord)">
               Add to diary
             </button>
           </div>
         </mat-card-content>
       </mat-card>
     </div>
-    <div *ngFor="let record of recordList">
-      <app-record [record]="record"></app-record>
+    <div *ngIf="recordList.length > 0">
+      <div *ngFor="let record of recordList">
+        <app-record [record]="record"></app-record>
+      </div>
+    </div>
+    <div *ngIf="recordList.length > 0" class="paginator">
+      <mat-paginator
+        [showFirstLastButtons]="true"
+        [color]="'warn'"
+        [length]="paginatorLength"
+        [pageIndex]="currentPage"
+        [pageSize]="pageSize"
+        [pageSizeOptions]="[5, 10, 25, 100]"
+        (page)="handlePageEvent($event)"
+      >
+      </mat-paginator>
     </div>
   </div>
 </div>

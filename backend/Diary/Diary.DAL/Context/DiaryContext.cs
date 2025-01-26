@@ -16,11 +16,6 @@ namespace Diary.DAL.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Record>()
-                .Property(r => r.Content)
-                .HasMaxLength(1100)
-                .IsRequired();
-
-            modelBuilder.Entity<Record>()
                 .HasMany(e => e.Images)
                 .WithOne(i => i.Record)
                 .HasForeignKey(k => k.RecordId)

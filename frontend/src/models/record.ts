@@ -6,4 +6,5 @@ export class Record {
   id: string = '';
   createdAt: string = '';
   updatedAt: string = '';
+  canDelete: boolean = true;
 }

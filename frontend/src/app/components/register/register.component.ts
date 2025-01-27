@@ -35,7 +35,6 @@ export class RegisterComponent implements OnInit {
           err.error?.error || 'An unexpected error occurred.';
         console.error('Login failed:', err);
         this.snackBarService.showUsualMessage(errorMessage);
-        //this.clearForm();
       },
     });
   }

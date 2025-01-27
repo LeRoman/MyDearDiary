@@ -8,26 +8,49 @@
     margin-bottom: 3%;
     margin-top: 3%;
     height: 100%;
-
+    gap: 10px
 }
 
 .mat-card-content {
     height: 90%;
     border: 1px solid rgba(28, 110, 164, 0.24);
     border-radius: 5px;
-    outline-offset: 0px;
     margin: 2%;
+    padding: 5px;
     text-align: justify;
     word-wrap: break-word;
+    background-color: aliceblue;
 }
 
 .mat-card-header {
     height: 5%;
     justify-content: center;
     align-content: center;
-    padding: 0, 0, 0, 0;
 }
 
 .mat-card-footer {
     height: 5%;
+    display: flex;
+    justify-content: end;
+
+}
+
+.mat-card button {
+    color: rgb(237, 75, 75);
+    border: none;
+    background-color: transparent;
+}
+
+.mat-card button:disabled {
+    color: rgb(68, 67, 67);
+}
+
+.mat-card button:hover {
+    color: rgb(229, 7, 7);
+    border-radius: 3px;
+}
+
+.mat-card button:disabled:hover {
+    background-color: transparent;
+    color: rgb(68, 67, 67);
 }

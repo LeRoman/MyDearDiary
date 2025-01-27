@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { RecordService } from '../../../services/record.service';
 import { Record } from '../../../models/record';
 import { NgFor, NgForOf, NgIf, ViewportScroller } from '@angular/common';
@@ -9,10 +9,11 @@ import { RecordComponent } from '../record/record.component';
 import { NewRecord } from '../../../models/new-record';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
-import { PageEvent } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { log } from 'console';
 
 @Component({
   selector: 'app-home',
@@ -27,11 +28,11 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     MatDatepickerModule,
   ],
   providers: [provideNativeDateAdapter()],
-  //changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
 export class HomeComponent implements OnInit {
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   public recordList: Record[] = [];
   public showNewRecordContainer = false;
   newRecord: NewRecord = new NewRecord();
@@ -84,7 +85,6 @@ export class HomeComponent implements OnInit {
   }
 
   getRecordList() {
-    console.log('getRecordList');
     this.recordService.getRecords().subscribe((data) => {
       this.recordList = data.data;
       this.closeNewPostContainer();
@@ -102,7 +102,6 @@ export class HomeComponent implements OnInit {
   }
 
   handlePageEvent(pageEvent: PageEvent) {
-    console.log('handlePageEvent', pageEvent);
     const queryParams = this.buildParamsArray();
     this.pageSize = pageEvent.pageSize;
     this.currentPage = pageEvent.pageIndex;
@@ -137,9 +136,21 @@ export class HomeComponent implements OnInit {
 
     return queryParams;
   }
+
   buildQueryString(params: { [key: string]: string }): string {
     return Object.entries(params)
       .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
       .join('&');
+  }
+
+  triggerPageEvent(): void {
+    if (this.paginator) {
+      const customPageEvent: PageEvent = {
+        pageIndex: this.currentPage,
+        pageSize: this.pageSize,
+        length: this.paginatorLength,
+      };
+      this.paginator.page.emit(customPageEvent);
+    }
   }
 }

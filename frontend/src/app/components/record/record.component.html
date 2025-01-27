@@ -5,7 +5,15 @@
     </mat-card-title>
   </mat-card-header>
   <mat-card-content class="mat-card-content">
-    <p>{{ record.content }}</p>
+    <p style="margin: 5px">{{ record.content }}</p>
   </mat-card-content>
-  <mat-card-footer class="mat-card-footer"> </mat-card-footer>
+  <footer class="mat-card-footer">
+    <button
+      [disabled]="!record.canDelete"
+      (click)="deleteRecord(record.id)"
+      matTooltip="Deletion not available after 2 days"
+    >
+      <mat-icon>delete</mat-icon>
+    </button>
+  </footer>
 </mat-card>

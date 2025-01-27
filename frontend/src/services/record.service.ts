@@ -42,7 +42,7 @@ export class RecordService {
   //   return this.http.put<Record>(`${this.apiUrl}/${id}`, Record);
   // }
   //
-  // deleteRecord(id: number): Observable<void> {
-  //   return this.http.delete<void>(`${this.apiUrl}/${id}`);
-  // }
+  deleteRecord(id: string): Observable<void> {
+    return this.http.delete<void>(this.basicUrl + '/record/' + id);
+  }
 }

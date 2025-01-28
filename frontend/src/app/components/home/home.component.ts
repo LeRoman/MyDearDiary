@@ -34,8 +34,10 @@ import { log } from 'console';
 export class HomeComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   public recordList: Record[] = [];
-  public showNewRecordContainer = false;
   newRecord: NewRecord = new NewRecord();
+
+  showNewRecordContainer = false;
+  showUploadButton = false;
 
   currentPage = 0;
   pageSize = 5;
@@ -52,15 +54,26 @@ export class HomeComponent implements OnInit {
     private viewportScroller: ViewportScroller
   ) {}
 
-  addRecord(newRecord: NewRecord) {
-    this.recordService.addRecord(newRecord).subscribe(() => {
-      this.clearList();
-      this.getRecordList();
-    });
+  onChange(event: any) {
+    const file: File = event.target.files[0];
+
+    if (file) {
+      this.newRecord.Image = file;
+    }
+  }
+
+  clearFilterForm() {
+    this.startDateField = '';
+    this.endDateField = '';
+    this.searchField = '';
   }
 
   clearList(): void {
     this.recordList = [];
+  }
+
+  toogleUploadMenu() {
+    this.showUploadButton = !this.showUploadButton;
   }
 
   showRecordContainer() {
@@ -70,6 +83,7 @@ export class HomeComponent implements OnInit {
   closeNewPostContainer(): void {
     this.showRecordContainer();
     this.newRecord.Content = '';
+    this.newRecord.Image = null;
   }
 
   logout() {
@@ -81,6 +95,13 @@ export class HomeComponent implements OnInit {
     this.recordService.getRecords().subscribe((data) => {
       this.recordList = data.data;
       this.paginatorLength = data.count;
+    });
+  }
+
+  addRecord(newRecord: NewRecord) {
+    this.recordService.addRecord(newRecord).subscribe(() => {
+      this.clearList();
+      this.getRecordList();
     });
   }
 
@@ -117,8 +138,6 @@ export class HomeComponent implements OnInit {
     });
     this.viewportScroller.scrollToPosition([0, 0]);
   }
-
-  onPageChange(event: any): void {}
 
   buildParamsArray() {
     const queryParams: { [key: string]: string } = {};

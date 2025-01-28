@@ -8,11 +8,11 @@
     margin-bottom: 3%;
     margin-top: 3%;
     height: 100%;
-    gap: 10px
 }
 
 .mat-card-content {
     height: 90%;
+    min-height: 100px;
     border: 1px solid rgba(28, 110, 164, 0.24);
     border-radius: 5px;
     margin: 2%;
@@ -32,7 +32,8 @@
     height: 5%;
     display: flex;
     justify-content: end;
-
+    margin: 10px;
+    ;
 }
 
 .mat-card button {
@@ -53,4 +54,10 @@
 .mat-card button:disabled:hover {
     background-color: transparent;
     color: rgb(68, 67, 67);
+}
+
+.delimiter {
+    width: 100%;
+    border-top: 1px solid rgba(28, 110, 164, 0.24);
+    ;
 }

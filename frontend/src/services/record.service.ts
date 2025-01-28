@@ -16,6 +16,7 @@ export class RecordService {
     console.log('add record invoke');
     const formData = new FormData();
     formData.append('Content', newRecord.Content);
+    formData.append('Images', newRecord.Image!);
     return this.http.post(this.basicUrl + '/record', formData);
   }
 
@@ -30,18 +31,6 @@ export class RecordService {
     );
   }
 
-  // getRecord(id: number): Observable<Record> {
-  //   return this.http.get<Record>(`${this.apiUrl}/${id}`);
-  // }
-  //
-  // createRecord(Record: Record): Observable<Record> {
-  //   return this.http.post<Record>(this.apiUrl, Record);
-  // }
-  //
-  // updateRecord(id: number, Record: Record): Observable<Record> {
-  //   return this.http.put<Record>(`${this.apiUrl}/${id}`, Record);
-  // }
-  //
   deleteRecord(id: string): Observable<void> {
     return this.http.delete<void>(this.basicUrl + '/record/' + id);
   }

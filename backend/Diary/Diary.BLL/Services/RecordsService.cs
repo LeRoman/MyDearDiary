@@ -60,6 +60,7 @@ namespace Diary.BLL.Services
             var record =
                 _context
                 .Records
+                .Include(record=>record.Images)
                 .Where(x => x.UserId == userId)
                 .FilterByDate(recordFilter)
                 .Decrypt(_encryptionService)

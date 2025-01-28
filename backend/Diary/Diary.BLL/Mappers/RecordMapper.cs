@@ -13,7 +13,8 @@ namespace Diary.BLL.Mappers
                 Id = record.Id.ToString(),
                 Content = record.Content,
                 CreatedAt = record.CreatedAt.ToString("dd/MM/yy, HH:mm", CultureInfo.InvariantCulture),
-                CanDelete=CanBeDeleted(record.CreatedAt)
+                CanDelete = CanBeDeleted(record.CreatedAt),
+                Image = record.Images?.FirstOrDefault()?.Path,
             };
         }
 

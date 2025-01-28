@@ -16,7 +16,9 @@
         [(ngModel)]="searchField"
         placeholder="Search fragment..."
       />
-      <button><mat-icon>clear</mat-icon></button>
+      <button (click)="clearFilterForm()" matTooltip="Clear filter fileds">
+        <mat-icon>clear</mat-icon>
+      </button>
 
       <input
         type="date"
@@ -67,11 +69,19 @@
               <label [textContent]="newRecord.Content.length"></label>
               <label>/500</label>
             </div>
-
+            <button (click)="toogleUploadMenu()">
+              <mat-icon>attach_file</mat-icon>
+            </button>
             <button class="add-button" (click)="addRecord(newRecord)">
               Add to diary
             </button>
           </div>
+          <input
+            *ngIf="showUploadButton"
+            type="file"
+            (change)="onChange($event)"
+            #fileUpload
+          />
         </mat-card-content>
       </mat-card>
     </div>

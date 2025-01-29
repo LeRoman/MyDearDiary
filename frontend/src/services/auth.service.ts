@@ -1,6 +1,6 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, InjectionToken, PLATFORM_ID } from '@angular/core';
-import { environment } from '../enviroments/enviroment';
+import { environment } from '../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { UserRegisterDto } from '../models/Auth/user-register-dto';
@@ -9,6 +9,9 @@ import { UserRegisterDto } from '../models/Auth/user-register-dto';
   providedIn: 'root',
 })
 export class AuthService {
+  refreshTokens() {
+    throw new Error('Method not implemented.');
+  }
   constructor(
     @Inject(PLATFORM_ID) private platformId: object,
     private httpClient: HttpClient
@@ -34,9 +37,11 @@ export class AuthService {
       password: password,
     });
   }
+
   logout() {
     this.removeToken();
   }
+
   setToken(token: string): void {
     localStorage.setItem(this.TOKEN_KEY, token);
   }

@@ -4,7 +4,7 @@ import { Record } from '../../../models/record';
 import { RecordService } from '../../../services/record.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { NgIf } from '@angular/common';
-import { environment } from '../../../enviroments/enviroment';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-record',

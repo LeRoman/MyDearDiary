@@ -6,7 +6,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SnackBarService } from '../../../services/snack-bar.service';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { environment } from '../../../enviroments/enviroment';
+import { environment } from '../../../environments/environment';
 import { catchError, Observable, switchMap, tap, throwError } from 'rxjs';
 import { response } from 'express';
 import { error } from 'console';

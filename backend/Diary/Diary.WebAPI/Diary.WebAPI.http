@@ -1,6 +1,0 @@
-@Diary.WebAPI_HostAddress = http://localhost:5129
-
-GET {{Diary.WebAPI_HostAddress}}/api/home
-Accept: application/json
-
-###

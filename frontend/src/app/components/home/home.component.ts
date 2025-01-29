@@ -14,6 +14,7 @@ import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { log } from 'console';
+import { SnackBarService } from '../../../services/snack-bar.service';
 
 @Component({
   selector: 'app-home',
@@ -51,7 +52,8 @@ export class HomeComponent implements OnInit {
     private recordService: RecordService,
     private router: Router,
     private authService: AuthService,
-    private viewportScroller: ViewportScroller
+    private viewportScroller: ViewportScroller,
+    private snackBarService: SnackBarService
   ) {}
 
   onChange(event: any) {
@@ -99,10 +101,16 @@ export class HomeComponent implements OnInit {
   }
 
   addRecord(newRecord: NewRecord) {
-    this.recordService.addRecord(newRecord).subscribe(() => {
-      this.clearList();
-      this.getRecordList();
-    });
+    if (newRecord.Content.length > 500) {
+      this.snackBarService.showErrorMessage(
+        'Record text can`t exceed 500 chars'
+      );
+    } else {
+      this.recordService.addRecord(newRecord).subscribe(() => {
+        this.clearList();
+        this.getRecordList();
+      });
+    }
   }
 
   getRecordList() {

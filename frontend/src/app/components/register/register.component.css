@@ -22,3 +22,7 @@
     justify-self: center;
     height: 100%;
 }
+
+.captcha {
+    justify-self: center;
+}

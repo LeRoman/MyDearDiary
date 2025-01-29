@@ -11,16 +11,6 @@
   <div class="options">
     <div class="filter-container">
       <input
-        type="text"
-        id="search"
-        [(ngModel)]="searchField"
-        placeholder="Search fragment..."
-      />
-      <button (click)="clearFilterForm()" matTooltip="Clear filter fileds">
-        <mat-icon>clear</mat-icon>
-      </button>
-
-      <input
         type="date"
         id="dateFrom"
         [(ngModel)]="startDateField"
@@ -31,6 +21,16 @@
         id="dateTo"
         [(ngModel)]="endDateField"
         placeholder="To date"
+      />
+      <button (click)="clearFilterForm()" matTooltip="Clear filter fileds">
+        Clear
+      </button>
+
+      <input
+        type="text"
+        id="search"
+        [(ngModel)]="searchField"
+        placeholder="Search fragment..."
       />
       <button id="filterButton" (click)="gerFilteredRecords()">Filter</button>
     </div>

@@ -26,14 +26,28 @@
         <br />
         <mat-form-field>
           <input
-            name="authPassword"
+            name="nickName"
             [(ngModel)]="newUser.nickName"
             #upPassword="ngModel"
             matInput
             placeholder="Nickname"
           />
         </mat-form-field>
+        <br />
+        <mat-form-field>
+          <input
+            name="captcha"
+            [(ngModel)]="userInput"
+            #upPassword="ngModel"
+            matInput
+            placeholder="Type captcha"
+          />
+        </mat-form-field>
+        <div class="captcha">
+          <img [src]="'data:image/png;base64,' + captchaImage" alt="Captcha" />
+        </div>
       </form>
+
       <div class="register-button">
         <button mat-button (click)="register()">Sign Up</button>
       </div>

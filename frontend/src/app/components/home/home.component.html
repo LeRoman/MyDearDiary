@@ -1,0 +1,111 @@
+<mat-toolbar class="toolbar">
+  <div>
+    <span class="title">MyDiary</span>
+  </div>
+  <div>
+    <button class="add-button" (click)="logout()">Logout</button>
+  </div>
+</mat-toolbar>
+
+<div class="home-container">
+  <div class="options">
+    <div class="filter-container">
+      <input
+        type="date"
+        id="dateFrom"
+        [(ngModel)]="startDateField"
+        placeholder="From date"
+      />
+      <input
+        type="date"
+        id="dateTo"
+        [(ngModel)]="endDateField"
+        placeholder="To date"
+      />
+      <button (click)="clearFilterForm()" matTooltip="Clear filter fileds">
+        Clear
+      </button>
+
+      <input
+        type="text"
+        id="search"
+        [(ngModel)]="searchField"
+        placeholder="Search fragment..."
+      />
+      <button id="filterButton" (click)="gerFilteredRecords()">Filter</button>
+    </div>
+  </div>
+
+  <div class="feed">
+    <div>
+      <div *ngIf="!showNewRecordContainer">
+        <button class="add-button" (click)="showRecordContainer()">
+          New Record
+        </button>
+      </div>
+
+      <div *ngIf="showNewRecordContainer">
+        <button class="add-button" (click)="showRecordContainer()">
+          Close
+        </button>
+      </div>
+    </div>
+
+    <div class="new-record">
+      <mat-card *ngIf="showNewRecordContainer">
+        <mat-card-content>
+          <h1 style="align-self: center">How it's going?</h1>
+          <mat-form-field class="input-field">
+            <textarea
+              [(ngModel)]="newRecord.Content"
+              matInput
+              placeholder="Write something..."
+              style="height: 200px"
+            ></textarea>
+          </mat-form-field>
+
+          <div class="button-panel">
+            <div>
+              <label [textContent]="newRecord.Content.length"></label>
+              <label>/500</label>
+            </div>
+            <button (click)="toogleUploadMenu()">
+              <mat-icon>attach_file</mat-icon>
+            </button>
+            <button class="add-button" (click)="addRecord(newRecord)">
+              Add to diary
+            </button>
+          </div>
+          <input
+            *ngIf="showUploadButton"
+            type="file"
+            (change)="onChange($event)"
+            #fileUpload
+          />
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div *ngIf="recordList.length > 0">
+      <div *ngFor="let record of recordList">
+        <app-record
+          [record]="record"
+          [triggerPage]="triggerPageEvent.bind(this)"
+        ></app-record>
+      </div>
+    </div>
+
+    <div *ngIf="recordList.length > 0" class="paginator">
+      <mat-paginator
+        [showFirstLastButtons]="true"
+        [color]="'warn'"
+        [length]="paginatorLength"
+        [pageIndex]="currentPage"
+        [pageSize]="pageSize"
+        [pageSizeOptions]="[5, 10, 25, 100]"
+        (page)="handlePageEvent($event)"
+      >
+      </mat-paginator>
+    </div>
+  </div>
+</div>

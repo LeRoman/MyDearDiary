@@ -1,0 +1,32 @@
+<div class="login-container">
+  <div class="login-form">
+    <div><h2 mat-dialog-title class="title">Enter your credentials</h2></div>
+
+    <div mat-dialog-content>
+      <form name="authForm" #authForm="ngForm">
+        <mat-form-field>
+          <input
+            name="authEmail"
+            [(ngModel)]="loginDto.email"
+            #inEmail="ngModel"
+            matInput
+            placeholder="Email"
+          />
+        </mat-form-field>
+        <br />
+        <mat-form-field>
+          <input
+            name="authPassword"
+            [(ngModel)]="loginDto.password"
+            #upPassword="ngModel"
+            matInput
+            placeholder="Password"
+          />
+        </mat-form-field>
+      </form>
+      <div class="login-button">
+        <button mat-button (click)="login()">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>

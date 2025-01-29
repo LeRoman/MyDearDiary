@@ -5,6 +5,7 @@ using Diary.DAL.Context;
 using Diary.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Diary.BLL.Services.Account
 {
@@ -35,7 +36,7 @@ namespace Diary.BLL.Services.Account
         public async Task SendInvitationAsync(string email, string token)
         {
             var subject = "Invitation to the system";
-            var body = $"Use for registation: https://localhost:7094/registration?token={token}";
+            var body = $"Use for registation: http://localhost:4200/register?token={token}";
             await _emailService.SendAsync(email, subject, body);
         }
 
@@ -66,7 +67,7 @@ namespace Diary.BLL.Services.Account
             {
                 rng.GetBytes(tokenBytes);
             }
-            return Convert.ToBase64String(tokenBytes);
+            return Base64UrlEncoder.Encode(tokenBytes);
         }
     }
 }

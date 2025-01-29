@@ -28,6 +28,7 @@ namespace Diary.WebAPI.Extentions
             services.AddTransient<IFileStorageService, FileStorageService>();
             services.AddHostedService<AccountDeletionService>();
             services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<ICapthaService, CapthaService>();
             services.AddScoped<UserIdStorage>();
             services.AddTransient<IUserIdSetter>(s => s.GetService<UserIdStorage>());
             services.AddTransient<IUserIdGetter>(s => s.GetService<UserIdStorage>());

@@ -25,7 +25,7 @@ namespace Diary.WebAPI.Controllers
         /// </summary>
         /// <returns> parametrized list of records</returns>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Record>>> GetRecords(
+        public async Task<ActionResult<PagedResult<RecordDTO>>> GetRecords(
             [FromQuery] RecordsListParams recordFilter,
             [FromQuery] PageParams pageParams
             )
@@ -47,13 +47,13 @@ namespace Diary.WebAPI.Controllers
         /// <summary>
         /// Delete record by ID
         /// </summary>
-        [HttpDelete]
-        public async Task<ActionResult> DeleteRecord(string recordId)
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteRecord(string id)
         {
-            var record = await _recordService.GetRecordByIdAsync(recordId);
+            var record = await _recordService.GetRecordByIdAsync(id);
             if (record is null) throw new NotFoundException("Record not found");
 
-            var canBeDeleted = await _recordService.CanDeleteRecordAsync(recordId);
+            var canBeDeleted = await _recordService.CanDeleteRecordAsync(id);
             if (!canBeDeleted) throw new BadRequestException("Cannot delete record older than 2 days");
 
             await _recordService.DeleteRecordAsync(record);

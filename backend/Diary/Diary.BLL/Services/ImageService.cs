@@ -24,17 +24,18 @@ namespace Diary.BLL.Services
         public async Task<Image> SaveImageAsync(IFormFile image)
         {
             var path = _storagePath;
+            string fileName = "";
             using (var memoryStream = new MemoryStream())
             {
                 await image.CopyToAsync(memoryStream);
                 memoryStream.Position = 0;
                 var optimizedImage = await OptimizeImageAsync(memoryStream);
-                var fileName = await _fileStorageService.SaveFileAsync(optimizedImage, path);
+                fileName = await _fileStorageService.SaveFileAsync(optimizedImage, path);
             }
             return new Image
             {
-                FileName = Guid.NewGuid().ToString(),
-                Path = path,
+                FileName = fileName,
+                Path = $"images/"+fileName,
                 Size = image.Length,
                 UploadedAt = DateTime.Now,
             };

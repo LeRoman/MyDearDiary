@@ -42,7 +42,7 @@ namespace Diary.WebAPI
             app.UseAuthorization();
             app.UseCors("AllowSpecificOrigin");
 
-            app.UseStaticFiles();
+            app.UseFileServer();
             app.UseHttpsRedirection();
             app.UseMiddleware<UserIdSaverMiddleware>();
             app.MapControllers();

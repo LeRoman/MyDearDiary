@@ -11,6 +11,6 @@ namespace Diary.BLL.Services.Interfaces
         Task DeleteRecordAsync(Record record);
         Task<Record> GetRecordByIdAsync(string recordId);
         Task<IEnumerable<Record>> GetRecords();
-        IEnumerable<RecordDTO> GetUserRecords(RecordsListParams recordFilter, PageParams pageParams);
+        PagedResult<RecordDTO> GetUserRecords(RecordsListParams recordFilter, PageParams pageParams);
     }
 }

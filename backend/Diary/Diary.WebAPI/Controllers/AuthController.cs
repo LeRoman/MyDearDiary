@@ -38,7 +38,7 @@ namespace Diary.WebAPI.Controllers
             await _userService.CreateUser(userCreateDTO);
             await _inviteService.MarkTokenAsUsedAsync(userCreateDTO.Token);
 
-            return Ok("Registration successful");
+            return Ok(new { message = "Registration successful" });
         }
 
         /// <summary>

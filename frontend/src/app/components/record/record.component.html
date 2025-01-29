@@ -1,0 +1,25 @@
+<mat-card class="mat-card">
+  <mat-card-header class="mat-card-header">
+    <mat-card-title>
+      {{ record.createdAt }}
+    </mat-card-title>
+  </mat-card-header>
+  <div class="delimiter"></div>
+  <div *ngIf="record.image">
+    <img style="width: 100%" [src]="url + record.image" alt="Image" />
+  </div>
+  <mat-card-content class="mat-card-content">
+    <p style="margin: 5px">{{ record.content }}</p>
+  </mat-card-content>
+
+  <div class="delimiter"></div>
+  <footer class="mat-card-footer">
+    <button
+      [disabled]="!record.canDelete"
+      (click)="deleteRecord(record.id)"
+      matTooltip="Deletion not available after 2 days"
+    >
+      <mat-icon>delete</mat-icon>
+    </button>
+  </footer>
+</mat-card>

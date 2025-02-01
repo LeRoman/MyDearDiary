@@ -24,8 +24,6 @@ services:
       - JWT_KEY=${JWT_KEY}
       - MAIL_PASSWORD=${MAIL_PASSWORD}
       - MAIL_USERNAME=${MAIL_USERNAME}
-    volumes:
-      - /home/appsettings.json:/app/appsettings.json
     ports: 
       - "5129:8080"
     networks:

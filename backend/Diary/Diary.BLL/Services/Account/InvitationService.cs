@@ -36,7 +36,7 @@ namespace Diary.BLL.Services.Account
         public async Task SendInvitationAsync(string email, string token)
         {
             var subject = "Invitation to the system";
-            var body = $"Use for registation: http://localhost:4200/register?token={token}";
+            var body = $"Use for registation: http://165.232.75.90/register?token={token}";
             await _emailService.SendAsync(email, subject, body);
         }
 

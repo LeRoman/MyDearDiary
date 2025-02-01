@@ -33,6 +33,7 @@ export class RegisterComponent implements OnInit {
   userInput: string = '';
 
   ngOnInit(): void {
+    console.log('Current API URL:', environment.apiUrl);
     this.newUser.token = this.route.snapshot.queryParamMap.get('token');
     this.refreshCaptcha();
   }
@@ -62,7 +63,7 @@ export class RegisterComponent implements OnInit {
     this.verifyCaptcha()
       .pipe(
         catchError((error: HttpErrorResponse) => {
-          console.error('Помилка! Статус-код:', error.status);
+          console.error('Error. Status code:', error.status);
           return throwError(error);
         })
       )

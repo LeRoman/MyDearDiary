@@ -29,6 +29,7 @@ namespace Diary.WebAPI
 
             var app = builder.Build();
 
+            Database.Migrate(app);
             // Configure the HTTP request pipeline.
             app.UseSwagger();
             app.UseSwaggerUI();
@@ -43,7 +44,6 @@ namespace Diary.WebAPI
             app.UseCors("AllowSpecificOrigin");
 
             app.UseFileServer();
-            app.UseHttpsRedirection();
             app.UseMiddleware<UserIdSaverMiddleware>();
             app.MapControllers();
 

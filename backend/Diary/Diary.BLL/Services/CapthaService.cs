@@ -1,9 +1,15 @@
 ﻿using Diary.BLL.Services.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using System.Drawing;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System;
+using System.IO;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Drawing.Processing;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Processing;
+using SixLabors.Fonts;
 using System.Text;
 
 namespace Diary.BLL.Services
@@ -61,25 +67,35 @@ namespace Diary.BLL.Services
             return new string(Enumerable.Repeat(chars, length).Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
+
         public string GenerateCaptchaImageAsBase64(string captchaText)
         {
-            using (var bitmap = new Bitmap(150, 50))
-            using (var graphics = Graphics.FromImage(bitmap))
-            {
-                graphics.Clear(Color.White);
-                var font = new Font("Arial", 24, FontStyle.Bold);
-                var brush = new SolidBrush(Color.Black);
-                graphics.DrawString(captchaText, font, brush, 10, 10);
+            int width = 150;
+            int height = 50;
 
-                graphics.DrawLine(new Pen(Color.Gray, 2), new Point(0, 0), new Point(150, 50));
-                graphics.DrawLine(new Pen(Color.Gray, 2), new Point(0, 50), new Point(150, 0));
+            using (var image = new Image<Rgba32>(width, height))
+            {
+                var font = SystemFonts.CreateFont("DejaVu Sans", 24, FontStyle.Bold);
+
+                var textSize = TextMeasurer.MeasureSize(captchaText, new TextOptions(font));
+                var textPosition = new PointF((width - textSize.Width) / 2, (height - textSize.Height) / 2);
+
+                image.Mutate(ctx =>
+                {
+                    ctx.Fill(Color.White);
+                    ctx.DrawText(captchaText, font, Color.Black, textPosition);
+                    ctx.DrawLine(Color.Gray, 2, new PointF(0, 0), new PointF(width, height));
+                    ctx.DrawLine(Color.Gray, 2, new PointF(0, height), new PointF(width, 0));
+                });
+
                 using (var stream = new MemoryStream())
                 {
-                    bitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+                    image.SaveAsPng(stream);
                     return Convert.ToBase64String(stream.ToArray());
                 }
             }
         }
+
     }
 }
 

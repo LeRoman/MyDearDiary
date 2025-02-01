@@ -54,6 +54,13 @@ jobs:
           password: ${{ secrets.DIGITAL_OCEAN_DROPLET_PASSWORD }}
           script: |
             cd /home
+
+            echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" > .env
+            echo "ENCRYPTION_KEY=${{ secrets.ENCRYPTION_KEY }}" >> .env
+            echo "JWT_KEY=${{ secrets.JWT_KEY }}" >> .env
+            echo "MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }}" >> .env
+            echo "MAIL_USERNAME=${{ secrets.MAIL_USERNAME }}" >> .env
+
             docker-compose down
             docker-compose pull
             docker-compose up --detach

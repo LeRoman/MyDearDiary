@@ -398,3 +398,5 @@ FodyWeavers.xsd
 *.sln.iml
 
 backend/Diary/Diary.WebAPI/appsettings.json
+/backend/Diary/Diary.WebAPI/appsettings.Development.json
+/backend/Diary/Diary.WebAPI/appsettings.json

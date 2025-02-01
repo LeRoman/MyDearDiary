@@ -27,6 +27,8 @@ namespace Diary.WebAPI
             builder.Services.AddEndpointsApiExplorer();
 
 
+
+
             var app = builder.Build();
 
             Database.Migrate(app);
@@ -46,6 +48,9 @@ namespace Diary.WebAPI
             app.UseFileServer();
             app.UseMiddleware<UserIdSaverMiddleware>();
             app.MapControllers();
+
+            var dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
+            Console.WriteLine($"DB_PASSWORD: {dbPassword}");
 
 
 

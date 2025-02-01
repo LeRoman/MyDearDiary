@@ -17,9 +17,15 @@ services:
   web_api: 
     container_name: web_api
     image: leroman/diary_api
-    build:
-      context: ./backend/Diary 
-      dockerfile: Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - DB_PASSWORD=${DB_PASSWORD}
+      - ENCRYPTION_KEY=${ENCRYPTION_KEY}
+      - JWT_KEY=${JWT_KEY}
+      - MAIL_PASSWORD=${MAIL_PASSWORD}
+      - MAIL_USERNAME=${MAIL_USERNAME}
+    volumes:
+      - /home/appsettings.json:/app/appsettings.json
     ports: 
       - "5129:8080"
     networks:
@@ -28,11 +34,8 @@ services:
   frontend_ng: 
     container_name: frontend_ng
     image: leroman/diary_ng
-    build:
-      context: ./frontend 
-      dockerfile: Dockerfile
     ports: 
-      - "4200:80" 
+      - "80:80" 
     networks:
     - "default"
     restart: always 

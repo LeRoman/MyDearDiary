@@ -8,6 +8,8 @@ namespace Diary.WebAPI
     {
         public static void Main(string[] args)
         {
+            var dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
+            Console.WriteLine($"DB_PASSWORD: {dbPassword}");
 
             var builder = WebApplication.CreateBuilder(
                 new WebApplicationOptions { WebRootPath = "storage" });
@@ -49,8 +51,7 @@ namespace Diary.WebAPI
             app.UseMiddleware<UserIdSaverMiddleware>();
             app.MapControllers();
 
-            var dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
-            Console.WriteLine($"DB_PASSWORD: {dbPassword}");
+            
 
 
 

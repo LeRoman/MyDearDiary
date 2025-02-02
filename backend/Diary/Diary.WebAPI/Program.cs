@@ -1,7 +1,7 @@
 using Diary.WebAPI.Extentions;
 using Diary.WebAPI.Filters;
 using Diary.WebAPI.Middlewares;
-
+using System.Text.RegularExpressions;
 namespace Diary.WebAPI
 {
     public partial class Program
@@ -13,6 +13,13 @@ namespace Diary.WebAPI
 
             var builder = WebApplication.CreateBuilder(
                 new WebApplicationOptions { WebRootPath = "storage" });
+
+            var env = builder.Environment;
+
+            if (env.IsProduction())
+            {
+                builder.SetProductionConfig(env);
+            }
 
             builder.Services.AddControllers(options =>
             {
@@ -28,35 +35,33 @@ namespace Diary.WebAPI
             builder.Services.ConfigureDB(builder.Configuration);
             builder.Services.AddEndpointsApiExplorer();
 
-
-
-
             var app = builder.Build();
 
             Database.Migrate(app);
             // Configure the HTTP request pipeline.
             app.UseSwagger();
             app.UseSwaggerUI();
+
             app.Use(async (context, next) =>
             {
                 Console.WriteLine($"Request: {context.Request.Method} {context.Request.Path}");
                 await next();
                 Console.WriteLine($"Response: {context.Response.StatusCode}");
             });
+
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseCors("AllowSpecificOrigin");
-
+            app.UseHttpsRedirection();
             app.UseFileServer();
             app.UseMiddleware<UserIdSaverMiddleware>();
             app.MapControllers();
 
-            
-
-
 
             app.Run();
         }
+
+        
     }
 
 }

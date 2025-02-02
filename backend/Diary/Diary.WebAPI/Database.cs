@@ -7,7 +7,6 @@ namespace Diary.WebAPI
     {
         public static void Migrate(WebApplication app)
         {
-
             using (var container = app.Services.CreateScope())
             {
                 var dbContext = container.ServiceProvider.GetService<DiaryContext>();

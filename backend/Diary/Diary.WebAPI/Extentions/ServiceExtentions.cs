@@ -11,6 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Diary.WebAPI.Extentions
 {
@@ -18,6 +19,7 @@ namespace Diary.WebAPI.Extentions
     {
         public static void RegisterCustomServices(this IServiceCollection services)
         {
+
             services.AddSingleton<IAesEncryptionService, AesEncryptionService>();
             services.AddScoped<IRecordsService, RecordsService>();
             services.AddScoped<IInvitationService, InvitationService>();
@@ -91,6 +93,36 @@ namespace Diary.WebAPI.Extentions
                 .AllowAnyHeader()
                 .AllowCredentials());
             });
+        }
+
+        public static void SetProductionConfig(this WebApplicationBuilder builder, IWebHostEnvironment env)
+        {
+
+            builder.Configuration
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true);
+            builder.Configuration.AddEnvironmentVariables(); 
+            var configValues = builder.Configuration.AsEnumerable().ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+
+            foreach (var key in configValues.Keys.ToList())
+            {
+                if (configValues[key] != null)
+                {
+                    configValues[key] = ReplacePlaceholders(configValues[key]!);
+                }
+            }
+
+            builder.Configuration.AddInMemoryCollection(configValues);
+
+            string ReplacePlaceholders(string input)
+            {
+                return Regex.Replace(input, "__([A-Z0-9_]+)__", match =>
+                {
+                    string envVar = match.Groups[1].Value;
+                    return Environment.GetEnvironmentVariable(envVar) ?? match.Value;
+                });
+            }
         }
     }
 }

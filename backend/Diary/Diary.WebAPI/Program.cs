@@ -15,6 +15,7 @@ namespace Diary.WebAPI
                 new WebApplicationOptions { WebRootPath = "storage" });
 
             var env = builder.Environment;
+            Console.WriteLine(env);
 
             if (env.IsProduction())
             {
@@ -51,8 +52,7 @@ namespace Diary.WebAPI
 
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseCors("AllowSpecificOrigin");
-            app.UseHttpsRedirection();
+            app.UseCors("AllowAll");
             app.UseFileServer();
             app.UseMiddleware<UserIdSaverMiddleware>();
             app.MapControllers();

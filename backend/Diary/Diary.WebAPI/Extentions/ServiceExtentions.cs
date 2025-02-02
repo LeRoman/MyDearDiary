@@ -87,11 +87,12 @@ namespace Diary.WebAPI.Extentions
         {
             services.AddCors(options =>
             {
-                options.AddPolicy("AllowSpecificOrigin",
-                builder => builder.WithOrigins("http://localhost:4200")
-                .AllowAnyMethod()
-                .AllowAnyHeader()
-                .AllowCredentials());
+                options.AddPolicy("AllowAll", builder =>
+                {
+                    builder.AllowAnyOrigin()
+                           .AllowAnyMethod()
+                           .AllowAnyHeader();
+                });
             });
         }
 

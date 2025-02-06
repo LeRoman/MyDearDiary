@@ -57,7 +57,7 @@ namespace Diary.BLL.Services
         public PagedResult<RecordDTO> GetUserRecords(RecordsListParams recordFilter, PageParams pageParams)
         {
             var userId = Guid.Parse(_userIdStorage.CurrentUserId);
-            var record =
+            var recordList =
                 _context
                 .Records
                 .Include(record=>record.Images)
@@ -69,7 +69,7 @@ namespace Diary.BLL.Services
                 .ToPaged(pageParams);
                 
 
-            return record;
+            return recordList;
         }
 
         public async Task DeleteRecordAsync(Record record)

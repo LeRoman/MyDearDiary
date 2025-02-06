@@ -19,7 +19,7 @@ namespace Diary.BLL.Extensions
                      y.CreatedAt <= endDate);
             }
 
-            return query;
+            return query.OrderByDescending(k=>k.CreatedAt);
         }
 
         public static IEnumerable<Record> FilterByContent(this IEnumerable<Record> query,RecordsListParams recordFilter)
@@ -38,11 +38,9 @@ namespace Diary.BLL.Extensions
             var pageSize = pageParams.PageSize ?? 5;
 
             var skip = (page - 1) * pageSize;
-
-            var data = query.OrderByDescending(k => k.CreatedAt)
+            var data = query
                 .Skip(skip)
                 .Take(pageSize).ToArray();
-
             return new PagedResult<RecordDTO> (data,count);
         }
 

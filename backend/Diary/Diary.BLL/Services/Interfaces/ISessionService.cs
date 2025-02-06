@@ -6,5 +6,6 @@ namespace Diary.BLL.Services.Interfaces
     {
         Task<Session> CreateSessionAsync(User user);
         Task RevokeSessionsAsync();
+        Task<Session?> GetActiveSession(User user);
     }
 }

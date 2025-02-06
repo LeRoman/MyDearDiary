@@ -9,9 +9,6 @@ import { UserRegisterDto } from '../models/Auth/user-register-dto';
   providedIn: 'root',
 })
 export class AuthService {
-  refreshTokens() {
-    throw new Error('Method not implemented.');
-  }
   constructor(
     @Inject(PLATFORM_ID) private platformId: object,
     private httpClient: HttpClient
@@ -21,6 +18,7 @@ export class AuthService {
   private baseUrl: string = environment.apiUrl;
   public loginRoutePrefix = '/api/auth/login';
   public registerRoutePrefix = '/api/auth/registration';
+  public refreshToken = '/api/token/refresh';
 
   register(newUser: UserRegisterDto): Observable<any> {
     return this.httpClient.post(`${this.baseUrl + this.registerRoutePrefix}`, {
@@ -54,5 +52,9 @@ export class AuthService {
 
   removeToken(): void {
     localStorage.removeItem(this.TOKEN_KEY);
+  }
+
+  refreshTokens(): Observable<any> {
+    return this.httpClient.get(this.baseUrl + this.refreshToken);
   }
 }

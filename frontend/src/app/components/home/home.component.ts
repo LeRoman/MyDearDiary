@@ -107,6 +107,7 @@ export class HomeComponent implements OnInit {
       );
     } else {
       this.recordService.addRecord(newRecord).subscribe(() => {
+        this.showUploadButton = false;
         this.clearList();
         this.getRecordList();
       });

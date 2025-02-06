@@ -14,11 +14,11 @@ using System.Text;
 
 namespace Diary.BLL.Services
 {
-    public class CapthaService : ICapthaService
+    public class CaptchaService : ICapthaService
     {
         private readonly IConfiguration _configuration;
 
-        public CapthaService(IConfiguration configuration)
+        public CaptchaService(IConfiguration configuration)
         {
             this._configuration = configuration;
         }

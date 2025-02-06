@@ -6,6 +6,7 @@ using Diary.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 using Microsoft.IdentityModel.Tokens;
+using Diary.BLL.Helper;
 
 namespace Diary.BLL.Services.Account
 {
@@ -23,7 +24,7 @@ namespace Diary.BLL.Services.Account
             var invitation = new Invitation
             {
                 Email = invitationDTO.Email,
-                Token = GenerateToken(),
+                Token = SecurityHelper.GenerateToken(),
                 IsUsed = false,
                 ExpirationDate = DateTime.Now.AddHours(invitationDTO.ExpirationHours)
             };
@@ -58,16 +59,6 @@ namespace Diary.BLL.Services.Account
                 invitation.IsUsed = true;
                 await _context.SaveChangesAsync();
             }
-        }
-
-        string GenerateToken()
-        {
-            var tokenBytes = new byte[32];
-            using (var rng = RandomNumberGenerator.Create())
-            {
-                rng.GetBytes(tokenBytes);
-            }
-            return Base64UrlEncoder.Encode(tokenBytes);
         }
     }
 }

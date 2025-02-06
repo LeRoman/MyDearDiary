@@ -1,51 +1,43 @@
-// import { Injectable } from '@angular/core';
-// import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpResponse, HttpErrorResponse } from '@angular/common/http';
-// import { Observable, throwError, empty } from 'rxjs';
-// import { catchError, switchMap } from 'rxjs/operators';
-// import { Router } from '@angular/router';
-// import {  AuthService } from '../services/auth.service';
+import { HttpInterceptorFn } from '@angular/common/http';
+import { inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
+import { SnackBarService } from '../services/snack-bar.service';
+import { catchError, switchMap, throwError } from 'rxjs';
 
-// @Injectable()
-// export class ErrorInterceptor implements HttpInterceptor {
-//     constructor(private router: Router, private authService: AuthService) {}
+export const ErrorInterceptor: HttpInterceptorFn = (req, next) => {
+  const router = inject(Router);
+  const authService = inject(AuthService);
+  const snackBar = inject(SnackBarService);
 
-//     public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-//         return next.handle(req).pipe(
-//             catchError((response) => {
-//                 if (response.status === 401) {
-//                     if (response.headers.has('Token-Expired')) {
-//                         return this.authService.refreshTokens().pipe(
-//                             switchMap((resp) => {
-//                                 req = req.clone({
-//                                     setHeaders: {
-//                                         Authorization: `Bearer ${resp.accessToken}`
-//                                     }
-//                                 });
+  return next(req).pipe(
+    catchError((response) => {
+      if (response.status === 401) {
+        return authService.refreshTokens().pipe(
+          switchMap((resp) => {
+            console.log(resp.value);
+            return next(
+              req.clone({
+                setHeaders: { Authorization: `Bearer ${resp.value}` },
+                body: req.body,
+              })
+            );
+          })
+        );
+      }
 
-//                                 return next.handle(req);
-//                             })
-//                         );
-//                     }
+      if (response.status === 401) {
+        router.navigate(['/']);
+        authService.logout();
+        snackBar.showUsualMessage('Session expired');
+      }
 
-//                     // if (response.error) {
-//                     //     if (response.error.code === ErrorCode.InvalidToken && !this.authService.areTokensExist()) {
-//                     //         return throwError(response.error.error);
-//                     //     }
-//                     //     if (response.error.code === ErrorCode.ExpiredRefreshToken) {
-//                     //         this.router.navigate(['/']);
-//                     //         this.authService.logout();
-//                     //         return throwError(response.error.error);
-//                     //     }
-//                     // }
-//                 }
+      console.log(response);
+      const error = response.error
+        ? response.error.error || response.error.message
+        : response.message || `${response.status} ${response.statusText}`;
 
-//                 console.log(response);
-//                 const error = response.error
-//                     ? response.error.error || response.error.message
-//                     : response.message || `${response.status} ${response.statusText}`;
-
-//                 return throwError(error);
-//             })
-//         );
-//     }
-// }
+      return throwError(() => new Error(error));
+    })
+  );
+};

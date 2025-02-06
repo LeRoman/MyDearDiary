@@ -6,7 +6,7 @@
   </mat-card-header>
   <div class="delimiter"></div>
   <div *ngIf="record.image">
-    <img style="width: 100%" [src]="url + record.image" alt="Image" />
+    <img style="width: 100%" [src]="imageUrl + record.image" alt="Image" />
   </div>
   <mat-card-content class="mat-card-content">
     <p style="margin: 5px">{{ record.content }}</p>

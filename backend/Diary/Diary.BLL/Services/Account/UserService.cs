@@ -1,4 +1,4 @@
-﻿using Diary.BLL.DTO.Account;
+using Diary.BLL.DTO.Account;
 using Diary.BLL.Services.Abstract;
 using Diary.BLL.Services.Interfaces;
 using Diary.DAL.Context;
@@ -13,12 +13,12 @@ namespace Diary.BLL.Services.Account
     public class UserService : BaseService, IUserService
     {
         private readonly IJwtService _jwtService;
-        private readonly ISessionService _sessionService;
+        private readonly Interfaces.ISessionService _sessionService;
         private readonly UserIdStorage _userIdStorage;
         private readonly double _softDeletePeriod;
 
         public UserService(DiaryContext context, IJwtService jwtService,
-            ISessionService sessionService, UserIdStorage userIdStorage, IConfiguration configuration) : base(context)
+            Interfaces.ISessionService sessionService, UserIdStorage userIdStorage, IConfiguration configuration) : base(context)
         {
             _jwtService = jwtService;
             _sessionService = sessionService;

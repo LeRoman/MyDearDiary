@@ -16,6 +16,9 @@ namespace Diary.WebAPI.Controllers
         {
             _capthaService = capthaService;
         }
+        /// <summary>
+        /// Generate captcha
+        /// </summary>
         [HttpGet("generate")]
         public IActionResult GenerateCaptcha()
         {
@@ -30,6 +33,9 @@ namespace Diary.WebAPI.Controllers
             });
         }
 
+        /// <summary>
+        /// Verify captcha
+        /// </summary>
         [HttpPost("verify")]
         public IActionResult VerifyCaptcha([FromBody] CaptchaVerificationRequest request)
         {

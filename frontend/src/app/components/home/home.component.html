@@ -22,9 +22,6 @@
         [(ngModel)]="endDateField"
         placeholder="To date"
       />
-      <button (click)="clearFilterForm()" matTooltip="Clear filter fileds">
-        Clear
-      </button>
 
       <input
         type="text"
@@ -32,6 +29,9 @@
         [(ngModel)]="searchField"
         placeholder="Search fragment..."
       />
+      <button (click)="clearFilterForm()" matTooltip="Clear filter fileds">
+        Clear
+      </button>
       <button id="filterButton" (click)="gerFilteredRecords()">Filter</button>
     </div>
   </div>

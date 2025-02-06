@@ -1,4 +1,5 @@
-﻿using Diary.DAL.Context;
+﻿using Diary.BLL.Helper;
+using Diary.DAL.Context;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -25,8 +26,8 @@ namespace Diary.WebAPI.Filters
             }
 
             var user = context.HttpContext.User;
-
             var userStatus = user.FindFirst("Status")?.Value;
+            var expTokenDate = SecurityHelper.GetJwtExpirationDate(user);
 
             if (userStatus == "MarkedForDeletion")
             {
@@ -35,6 +36,13 @@ namespace Diary.WebAPI.Filters
 
             if (user.Identity?.IsAuthenticated == true)
             {
+                if (expTokenDate < DateTime.Now)
+                {
+                    context.Result = new UnauthorizedResult();
+                    return;
+                } 
+
+
                 var sessionId = user.FindFirst("SessionId")?.Value;
                 if (!string.IsNullOrEmpty(sessionId))
                 {

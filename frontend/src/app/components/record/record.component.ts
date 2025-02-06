@@ -15,8 +15,11 @@ import { environment } from '../../../environments/environment';
   encapsulation: ViewEncapsulation.None,
 })
 export class RecordComponent {
-  constructor(private recordService: RecordService) {}
-  url: string = `${environment.apiUrl}/`;
+  constructor(private recordService: RecordService) {
+    if (environment.production) this.imageUrl = '165.232.75.90/';
+    this.imageUrl = `${environment.apiUrl}/`;
+  }
+  imageUrl: string = '';
   deleteRecord(id: string) {
     this.recordService.deleteRecord(id).subscribe((data) => this.triggerPage());
   }

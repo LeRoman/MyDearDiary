@@ -17,10 +17,10 @@ namespace Diary.BLL.Services
         public async Task SendAsync(string toEmail, string subject, string body)
         {
             var emailSettings = _configuration.GetSection("EmailSettings");
-            string smtpServer = emailSettings["SmtpServer"];
-            int port = int.Parse(emailSettings["Port"]);
-            string username = emailSettings["Username"];
-            string password = emailSettings["Password"];
+            string smtpServer = emailSettings["SmtpServer"]!;
+            int port = int.Parse(emailSettings["Port"]!);
+            string username = emailSettings["Username"]!;
+            string password = emailSettings["Password"]!;
 
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress("MyDiary", username));

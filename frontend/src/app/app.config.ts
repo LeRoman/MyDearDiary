@@ -10,16 +10,21 @@ import {
   provideHttpClient,
   withFetch,
   withInterceptors,
+  withInterceptorsFromDi,
 } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { TokenInterceptor } from '../token.interceptor';
+import { TokenInterceptor } from '../helpers/token.interceptor';
+import { ErrorInterceptor } from '../helpers/error.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideClientHydration(withEventReplay()),
-    provideHttpClient(withFetch(), withInterceptors([TokenInterceptor])),
+    provideHttpClient(
+      withFetch(),
+      withInterceptors([TokenInterceptor, ErrorInterceptor])
+    ),
     provideAnimationsAsync(),
   ],
 };

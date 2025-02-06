@@ -76,7 +76,7 @@ namespace Diary.WebAPI.Controllers
         public async Task<IActionResult> DeleteAccount([FromBody] AccountDeletionDTO accountDeletionDTO)
         {
             await _userService.DeleteAccountAsync(accountDeletionDTO);
-            return Ok();
+            return NoContent();
         }
 
         /// <summary>

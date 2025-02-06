@@ -16,8 +16,9 @@ import { environment } from '../../../environments/environment';
 })
 export class RecordComponent {
   constructor(private recordService: RecordService) {
-    if (environment.production) this.imageUrl = '165.232.75.90/';
-    this.imageUrl = `${environment.apiUrl}/`;
+    this.imageUrl = environment.production
+      ? 'http://165.232.75.90/'
+      : `${environment.apiUrl}/`;
   }
   imageUrl: string = '';
   deleteRecord(id: string) {

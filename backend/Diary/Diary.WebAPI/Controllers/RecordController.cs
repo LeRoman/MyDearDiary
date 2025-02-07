@@ -25,7 +25,7 @@ namespace Diary.WebAPI.Controllers
         /// </summary>
         /// <returns> parametrized list of records</returns>
         [HttpGet]
-        public async Task<ActionResult<PagedResult<RecordDTO>>> GetRecords(
+        public ActionResult<PagedResult<RecordDTO>> GetRecords(
             [FromQuery] RecordsListParams recordFilter,
             [FromQuery] PageParams pageParams
             )

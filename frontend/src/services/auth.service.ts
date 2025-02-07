@@ -18,6 +18,7 @@ export class AuthService {
   public refreshToken = '/api/token/refresh';
   public deleteAcc = '/api/auth/delete';
   public restoreAcc: string = '/api/auth/restore';
+  public sentInv: string = '/api/admin/sendinvite';
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: object,
@@ -45,6 +46,11 @@ export class AuthService {
     this.removeToken();
   }
 
+  sentInvitation(userEmail: string): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl + this.sentInv}`, {
+      email: userEmail,
+    });
+  }
   deleteAccount(password: string): Observable<any> {
     return this.httpClient.post(`${this.baseUrl + this.deleteAcc}`, {
       password: password,
@@ -76,6 +82,11 @@ export class AuthService {
   isMarkedForDeletion(): boolean {
     const claims = this.getTokenClaims();
     return claims?.Status === 'MarkedForDeletion';
+  }
+
+  isAdmin(): boolean {
+    const claims = this.getTokenClaims();
+    return claims?.Role === 'Admin';
   }
   getTokenClaims(): CustomJwtPayload | null {
     const token = this.getToken();

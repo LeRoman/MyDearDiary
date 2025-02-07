@@ -1,0 +1,22 @@
+<mat-toolbar class="toolbar">
+  <div>
+    <span class="title">MyDiary</span>
+  </div>
+  <div class="description">
+    <h3>Dashboard</h3>
+  </div>
+  <div class="buttons">
+    <button class="menu-button" (click)="logout()">Logout</button>
+  </div>
+</mat-toolbar>
+<div>
+  <div class="invite-panel">
+    <input
+      type="text"
+      id="userEmail"
+      [(ngModel)]="userEmail"
+      placeholder="type user email to sent invitation.."
+    />
+    <button id="filterButton" (click)="sendInvitation()">Sent</button>
+  </div>
+</div>

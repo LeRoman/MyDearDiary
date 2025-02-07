@@ -7,7 +7,8 @@ import { MatFormField, MatFormFieldModule } from '@angular/material/form-field';
 import { MatDialogContent, MatDialogTitle } from '@angular/material/dialog';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-
+import { MatMenuModule } from '@angular/material/menu';
+import { MatDialogModule } from '@angular/material/dialog';
 export const MaterialModules = [
   MatButtonModule,
   MatToolbarModule,
@@ -21,4 +22,6 @@ export const MaterialModules = [
   MatButton,
   MatPaginatorModule,
   MatDatepickerModule,
+  MatMenuModule,
+  MatDialogModule,
 ];

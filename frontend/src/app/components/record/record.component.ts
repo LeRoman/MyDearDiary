@@ -17,7 +17,7 @@ import { environment } from '../../../environments/environment';
 export class RecordComponent {
   constructor(private recordService: RecordService) {
     this.imageUrl = environment.production
-      ? 'http://165.232.75.90/'
+      ? 'http://165.232.75.90:5129/'
       : `${environment.apiUrl}/`;
   }
   imageUrl: string = '';

@@ -4,21 +4,25 @@ import { environment } from '../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { UserRegisterDto } from '../models/Auth/user-register-dto';
+import { JwtPayload, jwtDecode } from 'jwt-decode';
+import { CustomJwtPayload } from '../models/Auth/jwt-payload-model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(
-    @Inject(PLATFORM_ID) private platformId: object,
-    private httpClient: HttpClient
-  ) {}
-
   private readonly TOKEN_KEY = 'auth_token';
   private baseUrl: string = environment.apiUrl;
   public loginRoutePrefix = '/api/auth/login';
   public registerRoutePrefix = '/api/auth/registration';
   public refreshToken = '/api/token/refresh';
+  public deleteAcc = '/api/auth/delete';
+  public restoreAcc: string = '/api/auth/restore';
+
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: object,
+    private httpClient: HttpClient
+  ) {}
 
   register(newUser: UserRegisterDto): Observable<any> {
     return this.httpClient.post(`${this.baseUrl + this.registerRoutePrefix}`, {
@@ -37,9 +41,20 @@ export class AuthService {
   }
 
   logout() {
+    console.log('token removed');
     this.removeToken();
   }
 
+  deleteAccount(password: string): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl + this.deleteAcc}`, {
+      password: password,
+    });
+  }
+  restoreAccount(password: string): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl + this.restoreAcc}`, {
+      password: password,
+    });
+  }
   setToken(token: string): void {
     localStorage.setItem(this.TOKEN_KEY, token);
   }
@@ -56,5 +71,21 @@ export class AuthService {
 
   refreshTokens(): Observable<any> {
     return this.httpClient.get(this.baseUrl + this.refreshToken);
+  }
+
+  isMarkedForDeletion(): boolean {
+    const claims = this.getTokenClaims();
+    return claims?.Status === 'MarkedForDeletion';
+  }
+  getTokenClaims(): CustomJwtPayload | null {
+    const token = this.getToken();
+    if (!token) return null;
+
+    try {
+      return jwtDecode<CustomJwtPayload>(token);
+    } catch (error) {
+      console.error('Invalid JWT token', error);
+      return null;
+    }
   }
 }

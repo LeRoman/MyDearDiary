@@ -3,7 +3,11 @@ import { RecordService } from '../../../services/record.service';
 import { Record } from '../../../models/record';
 import { NgFor, NgForOf, NgIf, ViewportScroller } from '@angular/common';
 import { MaterialModules } from '../../../material.import';
-import { MatDialogContent, MatDialogTitle } from '@angular/material/dialog';
+import {
+  MatDialog,
+  MatDialogContent,
+  MatDialogTitle,
+} from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 import { RecordComponent } from '../record/record.component';
 import { NewRecord } from '../../../models/new-record';
@@ -13,8 +17,8 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { log } from 'console';
 import { SnackBarService } from '../../../services/snack-bar.service';
+import { DeleteAccountDialogComponent } from '../delete-account-dialog/delete-account-dialog.component';
 
 @Component({
   selector: 'app-home',
@@ -53,7 +57,8 @@ export class HomeComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     private viewportScroller: ViewportScroller,
-    private snackBarService: SnackBarService
+    private snackBarService: SnackBarService,
+    public dialog: MatDialog
   ) {}
 
   onChange(event: any) {
@@ -88,6 +93,17 @@ export class HomeComponent implements OnInit {
     this.newRecord.Image = null;
   }
 
+  openConfirmDialog(): void {
+    const dialogRef = this.dialog.open(DeleteAccountDialogComponent);
+    dialogRef.afterClosed().subscribe((password) => {
+      if (password) {
+        console.log('password');
+        this.authService.deleteAccount(password).subscribe();
+        this.logout();
+      }
+    });
+  }
+
   logout() {
     this.authService.logout();
     this.router.navigate(['/login']);
@@ -105,6 +121,8 @@ export class HomeComponent implements OnInit {
       this.snackBarService.showErrorMessage(
         'Record text can`t exceed 500 chars'
       );
+    } else if (newRecord.Content.length === 0) {
+      this.snackBarService.showErrorMessage('Record can`t be empty');
     } else {
       this.recordService.addRecord(newRecord).subscribe(() => {
         this.showUploadButton = false;

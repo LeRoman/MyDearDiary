@@ -1,0 +1,18 @@
+<div class="del-dialog">
+  <h2 mat-dialog-title>Account restoring</h2>
+  <mat-dialog-content>To restore account type your password</mat-dialog-content>
+  <mat-dialog-actions class="mat-actions">
+    <div><input matInput type="password" [(ngModel)]="password" /></div>
+    <div>
+      <button mat-button (click)="onNoClick()">Cancel</button>
+      <button
+        mat-button
+        [disabled]="password.length < 4"
+        color="warn"
+        (click)="onConfirm()"
+      >
+        Restore
+      </button>
+    </div>
+  </mat-dialog-actions>
+</div>

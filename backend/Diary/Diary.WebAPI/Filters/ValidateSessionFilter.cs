@@ -29,10 +29,7 @@ namespace Diary.WebAPI.Filters
             var userStatus = user.FindFirst("Status")?.Value;
             var expTokenDate = SecurityHelper.GetJwtExpirationDate(user);
 
-            if (userStatus == "MarkedForDeletion")
-            {
-                context.Result = new RedirectResult("auth/restore");
-            }
+            
 
             if (user.Identity?.IsAuthenticated == true)
             {

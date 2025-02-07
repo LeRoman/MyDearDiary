@@ -1,0 +1,8 @@
+.mat-actions {
+    display: flex;
+    flex-direction: column;
+}
+
+.del-dialog {
+    justify-items: center;
+}

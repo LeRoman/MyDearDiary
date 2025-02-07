@@ -2,8 +2,14 @@
   <div>
     <span class="title">MyDiary</span>
   </div>
-  <div>
-    <button class="add-button" (click)="logout()">Logout</button>
+  <div class="dropdown">
+    <button>Account</button>
+    <div class="dropdown-menu">
+      <button class="menu-button" (click)="openConfirmDialog()">
+        Delete account
+      </button>
+      <button class="menu-button" (click)="logout()">Logout</button>
+    </div>
   </div>
 </mat-toolbar>
 

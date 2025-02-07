@@ -13,12 +13,12 @@ namespace Diary.BLL.Services.Account
     public class UserService : BaseService, IUserService
     {
         private readonly IJwtService _jwtService;
-        private readonly Interfaces.ISessionService _sessionService;
+        private readonly ISessionService _sessionService;
         private readonly UserIdStorage _userIdStorage;
         private readonly double _softDeletePeriod;
 
         public UserService(DiaryContext context, IJwtService jwtService,
-            Interfaces.ISessionService sessionService, UserIdStorage userIdStorage, IConfiguration configuration) : base(context)
+            ISessionService sessionService, UserIdStorage userIdStorage, IConfiguration configuration) : base(context)
         {
             _jwtService = jwtService;
             _sessionService = sessionService;
@@ -72,7 +72,7 @@ namespace Diary.BLL.Services.Account
 
                 if (hashVerifyResult == PasswordVerificationResult.Success)
                 {
-                    MarkAccountForDelitionAsync(userId);
+                    await MarkAccountForDelitionAsync(userId);
                 }
             }
         }
@@ -106,11 +106,11 @@ namespace Diary.BLL.Services.Account
             await _context.SaveChangesAsync();
         }
 
-        private async void MarkAccountForDelitionAsync(Guid userId)
+        private async Task MarkAccountForDelitionAsync(Guid userId)
         {
             var acc = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
             acc.Status = AccountStatus.MarkedForDeletion;
-            acc.MarkedForDeletionAt = DateTime.Now;
+            acc.MarkedForDeletionAt = DateTime.Now.AddDays(2); ;
             await _context.SaveChangesAsync();
         }
 

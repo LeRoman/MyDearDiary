@@ -16,6 +16,7 @@ export const ErrorInterceptor: HttpInterceptorFn = (req, next) => {
         return authService.refreshTokens().pipe(
           switchMap((resp) => {
             console.log(resp.value);
+            authService.setToken(resp.value);
             return next(
               req.clone({
                 setHeaders: { Authorization: `Bearer ${resp.value}` },
@@ -27,8 +28,9 @@ export const ErrorInterceptor: HttpInterceptorFn = (req, next) => {
       }
 
       if (response.status === 401) {
-        router.navigate(['/']);
         authService.logout();
+        router.navigate(['/']);
+
         snackBar.showUsualMessage('Session expired');
       }
 

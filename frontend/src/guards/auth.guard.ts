@@ -11,6 +11,10 @@ export class AuthGuard implements CanActivate {
   canActivate(): boolean {
     const token = this.authService.getToken();
     if (token) {
+      if (this.authService.isMarkedForDeletion()) {
+        this.router.navigate(['/restore']);
+        return false;
+      }
       return true;
     } else {
       this.router.navigate(['/login']);

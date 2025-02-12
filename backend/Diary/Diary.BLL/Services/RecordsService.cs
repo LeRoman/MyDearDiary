@@ -60,14 +60,14 @@ namespace Diary.BLL.Services
             var recordList =
                 _context
                 .Records
-                .Include(record=>record.Images)
+                .Include(record => record.Images)
                 .Where(x => x.UserId == userId)
                 .FilterByDate(recordFilter)
                 .Decrypt(_encryptionService)
                 .FilterByContent(recordFilter)
                 .Select(x => RecordMapper.ToDTO(x))
                 .ToPaged(pageParams);
-                
+
 
             return recordList;
         }

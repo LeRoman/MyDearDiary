@@ -103,7 +103,7 @@ namespace Diary.WebAPI.Extentions
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true);
-            builder.Configuration.AddEnvironmentVariables(); 
+            builder.Configuration.AddEnvironmentVariables();
             var configValues = builder.Configuration.AsEnumerable().ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
             foreach (var key in configValues.Keys.ToList())

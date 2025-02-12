@@ -1,22 +1,16 @@
 using Diary.WebAPI.Extentions;
 using Diary.WebAPI.Filters;
 using Diary.WebAPI.Middlewares;
-using System.Text.RegularExpressions;
 namespace Diary.WebAPI
 {
     public partial class Program
     {
         public static void Main(string[] args)
         {
-            var dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
-            Console.WriteLine($"DB_PASSWORD: {dbPassword}");
-
             var builder = WebApplication.CreateBuilder(
                 new WebApplicationOptions { WebRootPath = "storage" });
 
             var env = builder.Environment;
-            Console.WriteLine(env);
-
             if (env.IsProduction())
             {
                 builder.SetProductionConfig(env);
@@ -61,7 +55,7 @@ namespace Diary.WebAPI
             app.Run();
         }
 
-        
+
     }
 
 }

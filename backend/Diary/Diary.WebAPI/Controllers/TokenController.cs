@@ -10,7 +10,7 @@ namespace Diary.WebAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    
+
     public class TokenController : Controller
     {
         private readonly UserIdStorage _idStorage;
@@ -18,12 +18,12 @@ namespace Diary.WebAPI.Controllers
         private readonly IJwtService _jwtService;
         private readonly DiaryContext _context;
 
-        public TokenController(UserIdStorage idStorage,ISessionService sessionService,IJwtService jwtService, DiaryContext context )
+        public TokenController(UserIdStorage idStorage, ISessionService sessionService, IJwtService jwtService, DiaryContext context)
         {
-            this._idStorage = idStorage;
-            this._sessionService = sessionService;
-            this._jwtService = jwtService;
-            this._context = context;
+            _idStorage = idStorage;
+            _sessionService = sessionService;
+            _jwtService = jwtService;
+            _context = context;
         }
 
 
@@ -35,12 +35,12 @@ namespace Diary.WebAPI.Controllers
         public async Task<IActionResult> Refresh()
         {
             var userGuidId = Guid.Parse(_idStorage.CurrentUserId);
-            var user = await _context.Users.FirstOrDefaultAsync(x=>x.Id==userGuidId);
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == userGuidId);
 
             if (user != null)
             {
                 var session = await _sessionService.GetActiveSession(user);
-                if (session!=null)
+                if (session != null)
                 {
                     var tokenDTO = new TokenDTO
                     {
@@ -50,7 +50,7 @@ namespace Diary.WebAPI.Controllers
                 }
 
             }
-            
+
             return Unauthorized();
         }
     }

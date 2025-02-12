@@ -1,5 +1,4 @@
 ﻿using Diary.BLL.DTO.Account;
-using Diary.BLL.Services.Account;
 using Diary.BLL.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 

@@ -3,7 +3,6 @@ using Diary.BLL.Services.Interfaces;
 using Diary.DAL.Context;
 using Diary.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
 using Microsoft.Extensions.Configuration;
 
 namespace Diary.BLL.Services.Account
@@ -56,7 +55,7 @@ namespace Diary.BLL.Services.Account
         public async Task<Session?> GetActiveSession(User user)
         {
             var session = await _context.Sessions.FirstOrDefaultAsync(x => x.UserId == user.Id);
-            if (session != null&!session!.IsRevoked && session.ExpiryAt > DateTime.Now)
+            if (session != null & !session!.IsRevoked && session.ExpiryAt > DateTime.Now)
             {
                 return session;
             }

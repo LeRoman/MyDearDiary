@@ -1,12 +1,10 @@
 ﻿using Diary.BLL.DTO.Account;
+using Diary.BLL.Helper;
 using Diary.BLL.Services.Abstract;
 using Diary.BLL.Services.Interfaces;
 using Diary.DAL.Context;
 using Diary.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography;
-using Microsoft.IdentityModel.Tokens;
-using Diary.BLL.Helper;
 
 namespace Diary.BLL.Services.Account
 {

@@ -12,7 +12,11 @@ export const ErrorInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(req).pipe(
     catchError((response) => {
-      if (response.status === 401) {
+      console.error('Intercepted Error:', response.error?.message);
+
+      const errorMessage = response.error?.message;
+
+      if (response.status === 401 && errorMessage === 'token-expired') {
         return authService.refreshTokens().pipe(
           switchMap((resp) => {
             console.log(resp.value);
@@ -27,7 +31,7 @@ export const ErrorInterceptor: HttpInterceptorFn = (req, next) => {
         );
       }
 
-      if (response.status === 401) {
+      if (response.status === 401 && errorMessage === 'session-expired') {
         authService.logout();
         router.navigate(['/']);
 

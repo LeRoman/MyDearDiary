@@ -1,6 +1,5 @@
 ﻿using Diary.BLL.DTO.Account;
 using Diary.BLL.Exceptions;
-using Diary.BLL.Services.Account;
 using Diary.BLL.Services.Interfaces;
 using Diary.WebAPI.Filters;
 using Microsoft.AspNetCore.Authorization;

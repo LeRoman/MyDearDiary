@@ -11,7 +11,6 @@ namespace Diary.WebAPI.Extentions
             Console.WriteLine(exception.Message);
             return exception switch
             {
-                
                 BadRequestException _ => (HttpStatusCode.BadRequest, ErrorCode.BadRequest),
                 NotFoundException _ => (HttpStatusCode.NotFound, ErrorCode.NotFound),
                 InvalidCredentialsException _ => (HttpStatusCode.Unauthorized, ErrorCode.InvalidUsernameOrPassword),

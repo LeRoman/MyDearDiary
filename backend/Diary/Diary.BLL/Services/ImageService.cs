@@ -35,7 +35,7 @@ namespace Diary.BLL.Services
             return new Image
             {
                 FileName = fileName,
-                Path = $"images/"+fileName,
+                Path = $"images/" + fileName,
                 Size = image.Length,
                 UploadedAt = DateTime.Now,
             };

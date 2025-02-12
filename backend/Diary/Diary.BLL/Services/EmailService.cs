@@ -8,20 +8,24 @@ namespace Diary.BLL.Services
     public class EmailService : IEmailService
     {
         private readonly IConfiguration _configuration;
+        private readonly IConfigurationSection emailSettings;
+        private readonly string smtpServer;
+        private readonly int port;
+        private readonly string username;
+        private readonly string password;
 
         public EmailService(IConfiguration configuration)
         {
             _configuration = configuration;
+            emailSettings = _configuration.GetSection("EmailSettings");
+            smtpServer = emailSettings["SmtpServer"]!;
+            port = int.Parse(emailSettings["Port"]!);
+            username = emailSettings["Username"]!;
+            password = emailSettings["Password"]!;
         }
 
         public async Task SendAsync(string toEmail, string subject, string body)
         {
-            var emailSettings = _configuration.GetSection("EmailSettings");
-            string smtpServer = emailSettings["SmtpServer"]!;
-            int port = int.Parse(emailSettings["Port"]!);
-            string username = emailSettings["Username"]!;
-            string password = emailSettings["Password"]!;
-
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress("MyDiary", username));
             message.To.Add(new MailboxAddress("", toEmail));

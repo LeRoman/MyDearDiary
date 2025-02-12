@@ -2,7 +2,6 @@ using Diary.BLL.DTO;
 using Diary.BLL.DTO.Record;
 using Diary.BLL.Exceptions;
 using Diary.BLL.Services.Interfaces;
-using Diary.DAL.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

@@ -29,15 +29,22 @@ namespace Diary.WebAPI.Filters
             var userStatus = user.FindFirst("Status")?.Value;
             var expTokenDate = SecurityHelper.GetJwtExpirationDate(user);
 
-            
+
 
             if (user.Identity?.IsAuthenticated == true)
             {
                 if (expTokenDate < DateTime.Now)
                 {
-                    context.Result = new UnauthorizedResult();
+                    context.Result = new ObjectResult(
+                        new
+                        {
+                            message = "token-expired"
+                        })
+                    {
+                        StatusCode = StatusCodes.Status401Unauthorized
+                    };
                     return;
-                } 
+                }
 
 
                 var sessionId = user.FindFirst("SessionId")?.Value;
@@ -46,7 +53,14 @@ namespace Diary.WebAPI.Filters
                     var session = await _dbContext.Sessions.FirstOrDefaultAsync(s => s.Id == Guid.Parse(sessionId));
                     if (session == null || session.IsRevoked || session.ExpiryAt <= DateTime.Now)
                     {
-                        context.Result = new UnauthorizedResult();
+                        context.Result = new ObjectResult(
+                            new
+                            {
+                                message = "session-expired"
+                            })
+                        {
+                            StatusCode = StatusCodes.Status401Unauthorized
+                        };
                         return;
                     }
                 }

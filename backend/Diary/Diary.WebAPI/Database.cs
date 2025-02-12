@@ -3,8 +3,6 @@ using Diary.DAL.Entities;
 using Diary.DAL.Enums;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using System;
 
 namespace Diary.WebAPI
 {

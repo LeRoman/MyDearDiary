@@ -19,10 +19,10 @@ namespace Diary.BLL.Extensions
                      y.CreatedAt <= endDate);
             }
 
-            return query.OrderByDescending(k=>k.CreatedAt);
+            return query.OrderByDescending(k => k.CreatedAt);
         }
 
-        public static IEnumerable<Record> FilterByContent(this IEnumerable<Record> query,RecordsListParams recordFilter)
+        public static IEnumerable<Record> FilterByContent(this IEnumerable<Record> query, RecordsListParams recordFilter)
         {
             var filter = recordFilter;
             if (!string.IsNullOrEmpty(filter.SearchFragment))
@@ -32,7 +32,7 @@ namespace Diary.BLL.Extensions
         }
         public static PagedResult<RecordDTO> ToPaged(this IEnumerable<RecordDTO> query, PageParams pageParams)
         {
-            var count=query.Count();
+            var count = query.Count();
 
             var page = pageParams.Page ?? 1;
             var pageSize = pageParams.PageSize ?? 5;
@@ -41,7 +41,7 @@ namespace Diary.BLL.Extensions
             var data = query
                 .Skip(skip)
                 .Take(pageSize).ToArray();
-            return new PagedResult<RecordDTO> (data,count);
+            return new PagedResult<RecordDTO>(data, count);
         }
 
         public static IEnumerable<Record> Decrypt(this IEnumerable<Record> query, IAesEncryptionService decryptor)
@@ -49,7 +49,6 @@ namespace Diary.BLL.Extensions
             foreach (var record in query)
             {
                 record.Content = decryptor.Decrypt(record.Content);
-                //yield return record;
             }
             return query;
         }

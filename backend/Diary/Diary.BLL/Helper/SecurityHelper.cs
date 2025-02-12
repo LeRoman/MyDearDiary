@@ -1,12 +1,6 @@
-﻿using Diary.DAL.Entities;
-using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Diary.BLL.Helper
 {
@@ -30,9 +24,8 @@ namespace Diary.BLL.Helper
             if (expClaim != null && long.TryParse(expClaim, out long expUnixTime))
             {
                 var expirationTime = DateTimeOffset.FromUnixTimeSeconds(expUnixTime).DateTime.ToLocalTime();
-                Console.WriteLine("exp date"+expirationTime.ToString());
                 return expirationTime;
-                
+
             }
             return new DateTime();
         }
